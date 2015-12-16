@@ -7,11 +7,12 @@
     2. optional-authn-valve JAR
     3. fcrepo.war (built from fcrepo-webapp-plus)
     4. user.war (built from fcrepo-user-webapp)
-2. `vagrant up`
-3. `vagrant ssh`
+2. Clone [fcrepo-env](https://github.com/umd-lib/fcrepo-env) into `/apps/git/fcrepo-env`, and check out the `vagrant` branch
+3. Start the Vagrant: `vagrant up`
 4. Start the base applications (Infinispan and Tomcat):
 
     ```
+    $ vagrant ssh
     $ cd /apps/fedora/infinispan-server
     $ ./control start
     $ cd ../tomcat
