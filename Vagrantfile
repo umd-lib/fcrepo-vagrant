@@ -58,4 +58,6 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: "scripts/env.sh"
   # deploy webapps
   config.vm.provision "shell", path: "scripts/webapps.sh", privileged: false
+  # configure Apache runtime
+  config.vm.provision "shell", path: "scripts/apache.sh"
 end
