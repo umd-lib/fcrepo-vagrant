@@ -16,8 +16,8 @@ tar xvzf "$TOMCAT_TGZ" --directory /apps
 # CATALINA_BASE for our webapps
 CATALINA_BASE=/apps/fedora/tomcat
 
-# log directory must be pre-created
-mkdir -p "$CATALINA_BASE/logs"
+# log and temp directories must be pre-created
+mkdir -p "$CATALINA_BASE"/{logs,temp}
 
 # local libs
 mkdir -p "$CATALINA_BASE/lib"
