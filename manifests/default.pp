@@ -21,7 +21,7 @@ package { 'lsof':
 }
 
 firewall { '100 allow http and https access':
-  dport  => [80, 443, 8080, 9600, 9601],
+  dport  => [80, 81, 82, 443, 8080, 9600, 9601],
   proto  => tcp,
   action => accept,
 }
