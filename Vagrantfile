@@ -62,4 +62,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: "scripts/apache.sh"
   # create self-signed certificate for Apache
   config.vm.provision "shell", path: "scripts/https-cert.sh"
+  # create a client certificate for curl
+  config.vm.provision "shell", path: "scripts/clientcert.sh", args: [ 'curl' ], privileged: false
+
 end
