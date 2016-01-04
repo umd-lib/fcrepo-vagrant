@@ -52,8 +52,6 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: "scripts/karaf.sh"
   # install Fuseki
   config.vm.provision "shell", path: "scripts/fuseki.sh"
-  # install Infinispan
-  config.vm.provision "shell", path: "scripts/infinispan.sh"
   # install runtime env
   config.vm.provision "shell", path: "scripts/env.sh"
   # deploy webapps
