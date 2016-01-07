@@ -1,39 +1,87 @@
 # fcrepo-vagrant
 
-## Quick Start
+1. Clone this repository:
 
-1. Place the following in the [dist](dist) directory:
-    1. Oracle JDK 8
-    2. optional-authn-valve JAR (built from [optional-authn-valve](https://github.com/umd-lib/optional-authn-valve) with
-       `mvn clean package`)
-    3. fcrepo.war (built from [fcrepo](https://github.com/umd-lib/fcrepo) using `mvn clean package -Pwebac,noauth,ispn-remote`)
-    4. user.war (built from [fcrepo-user-webapp](https://github.com/umd-lib/fcrepo-user-webapp) with `mvn clean package`)
-2. Run a local Solr using the [solr-env](https://github.com/umd-lib/solr-env) local branch.
-    1. Copy the `fedora4` core directory from fcrepodev to your local solr-env `cores` 
-       directory.
-    2. Add `<core instanceDir="cores/fedora4/" name="fedora4" dataDir="data"/>`
-       to the `solr.xml` in your copy of solr-env.
-    3. Follow the [solr-env local instructions](https://github.com/umd-lib/solr-env/blob/local/README.md) for running Solr 
-       locally
+    ```
+    cd /apps/git
+    git clone git@github.com:umd-lib/fcrepo-vagrant
+    ```
+
+2. Clone [fcrepo-env](https://github.com/umd-lib/fcrepo-env) into
+   `/apps/git/fcrepo-env`, and check out the `vagrant` branch:
+   
+    ```
+    git clone git@github.com:umd-lib/fcrepo-env.git -b vagrant
+    ```
+
+2. Build an fcrepo.war webapp and place it in the [dist](dist) directory:
+
+    ```
+    git clone git@github.com:umd-lib/fcrepo -b umd-develop
+    cd fcrepo
+    mvn clean package -Pwebac,noauth
+    cp target/fcrepo*.war /apps/git/fcrepo-vagrant/dist
+    ```
+    
+2. Download an [Oracle JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html)
+    tarball (current version is 8u65) and place it in the [dist](dist) directory.
+
+3. Run a local Solr using the [solr-env](https://github.com/umd-lib/solr-env) local
+   branch:
+
+    ```
+    cd /apps
+    git clone git@github.com:umd-lib/solr-env.git solr -b local
+    cd /apps/solr/jetty
+
+    mvn keytool:clean keytool:generateKeyPair
+
+    sudo keytool -importkeystore \
+      -srckeystore src/main/config/jetty-ssl.keystore \
+      -srcstorepass jetty8 \
+      -destkeystore $JAVA_HOME/jre/lib/security/cacerts \
+      -deststorepass changeit
+
+    nohup mvn jetty:run -Dsolr.solr.home=conf/fedora4 &
+    ```
+
+    This will start solr with fedora solr core with both http and https:
+
+    * <http://localhost:8983/solr/>
+    * <https://localhost:8443/solr/>
+
 2. Add `fcrepolocal` to your workstation's `/etc/hosts` file:
 
     ```
-    192.168.40.10  fcrepolocal
+    sudo echo "192.168.40.10  fcrepolocal" >> /etc/hosts
     ```
 
-3. Clone [fcrepo-env](https://github.com/umd-lib/fcrepo-env) into `/apps/git/fcrepo-env`, and check out the `vagrant` branch
-4. Start the Vagrant: `vagrant up`
+1. Start the Vagrant:
+
+    ```
+    cd /apps/git/fcrepo-vagrant
+    vagrant up
+    ```
+
 5. Start the applications:
 
     ```
-    $ vagrant ssh
-    $ cd /apps/fedora
-    $ ./control start
+    vagrant ssh
+    cd /apps/fedora
+    ./control start
     ```
 
-Log in: <http://192.168.40.10:8080/user>
+Congratulations, you should now have a running fcrepo-vagrant!
 
-Fedora: <http://192.168.40.10:8080/fcrepo>
+* Application Landing Page: <https://fcrepolocal/>
+* Log in: <https://fcrepolocal/user>
+* Fedora REST interface: <https://fcrepolocal/fcrepo/rest>
+
+**Note:** The Apache web server in this Vagrant is configured to use a
+self-signed certificate, which is regenerated each time you provision the
+Vagrant. This means that the first time you bring up the Vagrant, and whenever
+you destroy and recreate it, when you access <https://fcrepolocal/> through your
+browser, you will get a certificate security warning.
 
 ## VM Info
 
@@ -44,11 +92,3 @@ Fedora: <http://192.168.40.10:8080/fcrepo>
 |OS         |CentOS 6.6   |
 
 [Vagrantfile](Vagrantfile)
-
-## TODO
-
-1. Simplify preqrequisites
-   * Incldue a builder script that runs on the host and builds the prerequisite JARs
-     and WARs
-   * Progamatically add the /etc/hosts entry to the host workstation
-   * Simplify the Solr setup

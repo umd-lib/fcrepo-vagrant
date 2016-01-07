@@ -31,3 +31,6 @@ openssl pkcs12 -export -clcerts -in "$CLIENT".crt -inkey "$CLIENT".key -out "$CL
 
 # package as a PEM (for curl)
 openssl pkcs12 -in "$CLIENT".p12 -out "$CLIENT".pem -passout pass: -passin pass:
+
+# test with
+# curl -IkE ~/curl.pem --key ~/curl.key https://localhost:9601/fcrepo/rest
