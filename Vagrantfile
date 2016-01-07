@@ -44,6 +44,8 @@ Vagrant.configure(2) do |config|
   # system provisioning
   config.vm.provision "puppet"
 
+  # get pre-built artifacts (from Nexus)
+  config.vm.provision "shell", path: "scripts/artifacts.sh"
   # install JDK
   config.vm.provision "shell", path: "scripts/jdk.sh"
   # install Tomcat
