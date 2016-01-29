@@ -20,6 +20,6 @@ function get_artifact {
 cd /apps/dist
 
 get_artifact releases edu.umd.lib optional-authn-valve 1.0.0 jar
-get_artifact snapshots edu.umd.lib fcrepo-user-webapp LATEST war user.war
+get_artifact releases edu.umd.lib fcrepo-user-webapp 1.0.0 war user.war
 
 #TODO: get fcrepo.war
