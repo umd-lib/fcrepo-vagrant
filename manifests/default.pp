@@ -1,13 +1,18 @@
+package { 'epel-release':
+  ensure => present,
+}
 package { 'httpd':
-  ensure => '2.2.15-47.el6.centos.1',
+  ensure => present,
 }
 package { 'mod_ssl':
-  ensure => present,
+  ensure  => present,
+  require => Package['httpd'],
+}
+package { 'mod_auth_cas':
+  ensure  => present,
+  require => Package['epel-release'],
 }
 package { 'openssl':
-  ensure => present,
-}
-package { 'unzip':
   ensure => present,
 }
 package { 'vim-enhanced':

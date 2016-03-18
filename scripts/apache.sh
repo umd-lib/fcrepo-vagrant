@@ -4,6 +4,7 @@ SERVICE_USER_GROUP=vagrant:vagrant
 
 # runtime environment
 mkdir -p /apps/fedora/apache/{bin,logs,run}
+mkdir -p /apps/fedora/apache/tmp/cas
 chown -R "$SERVICE_USER_GROUP" /apps/fedora/apache
 
 # symlink to system modules
