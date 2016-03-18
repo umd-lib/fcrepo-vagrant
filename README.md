@@ -83,6 +83,23 @@ Vagrant. This means that the first time you bring up the Vagrant, and whenever
 you destroy and recreate it, when you access <https://fcrepolocal/> through your
 browser, you will get a certificate security warning.
 
+### Configuring Karaf
+
+Currently, you must build the custom UMD versions of fcrepo-java-client, fcrepo-camel,
+and fcrepo-camel-toolbox, and manually copy them to the Maven repository directory
+(`~/.m2/repository/org/fcrepo/{camel,client}`) on the Vagrant. Then you can set up the
+Camel routes by running:
+
+```
+$ cd /apps/fedora/karaf
+$ bin/client -f ../config/karaf-fcrepo-setup
+```
+
+**Note that the Camel routes do not work yet because the SSL certificates to
+authenticate Karaf to Fedora and Solr are not correctly configured for the
+Vagrant. See [LIBFCREPO-69](https://issues.umd.edu/browse/LIBFCREPO-69).**
+
+
 ## VM Info
 
 |Attribute  |Value        |
