@@ -45,6 +45,12 @@ Vagrant.configure(2) do |config|
   # system provisioning
   config.vm.provision "puppet"
 
+  # copy the default vagrant key so we can easily ssh between fcrepo and solr boxes
+  # this works because this base box adds the insecure public key to the vagrant
+  # user's authorized_hosts file
+  config.vm.provision "file",
+    source: "#{ENV['HOME']}/.vagrant.d/insecure_private_key",
+    destination: "/home/vagrant/.ssh/id_rsa"
   # get pre-built artifacts (from Nexus)
   config.vm.provision "shell", path: "scripts/artifacts.sh"
   # install JDK
