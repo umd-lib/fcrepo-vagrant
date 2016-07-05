@@ -1,3 +1,7 @@
+Package {
+  allow_virtual => false,
+}
+
 package { 'epel-release':
   ensure => present,
 }
