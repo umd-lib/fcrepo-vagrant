@@ -69,5 +69,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: "scripts/apache.sh"
   # create self-signed certificate for Apache
   config.vm.provision "shell", path: "scripts/https-cert.sh"
+  # run Karaf setup
+  config.vm.provision "shell", path: "scripts/karaf-setup.sh", privileged: false
 
 end
