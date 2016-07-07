@@ -31,13 +31,10 @@ Vagrant.configure(2) do |config|
     solr.vm.synced_folder "dist/solr", "/apps/dist"
 
     # Puppet Modules
-    #solr.vm.provision "shell", inline: 'puppet module install puppetlabs-firewall'
+    solr.vm.provision "shell", inline: 'puppet module install puppetlabs-firewall'
 
     # system provisioning
-    #solr.vm.provision "puppet"
-
-    # open ports in the firewall
-    solr.vm.provision "shell", path: 'scripts/solr/openports.sh', args: [8983, 8984]
+    solr.vm.provision "puppet", manifest_file: 'solr.pp', environment: 'local'
 
     # JDK
     solr.vm.provision "shell", path: 'scripts/solr/jdk.sh'
