@@ -3,73 +3,106 @@
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "puppetlabs/centos-6.6-64-puppet"
-  config.vm.box_version = "1.0.1"
+  # PostgreSQL server
+  config.vm.define "postgres" do |postgres|
+    postgres.vm.box = "puppetlabs/centos-6.6-64-puppet"
+    postgres.vm.box_version = "1.0.1"
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
+    postgres.vm.hostname = 'pglocal'
 
-  config.vm.hostname = 'fcrepolocal'
+    postgres.vm.network "private_network", ip: "192.168.40.12"
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.40.10"
+    postgres.vm.provision "shell", inline: <<-SHELL
+      puppet module install puppetlabs-firewall
+      puppet module install puppetlabs-postgresql
+    SHELL
 
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  config.vm.synced_folder "dist", "/apps/dist"
-  config.vm.synced_folder "/apps/git/fcrepo-env", "/apps/git/fcrepo-env"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-     # Customize the amount of memory on the VM:
-     vb.memory = "4096"
+    postgres.vm.provision "puppet", manifest_file: 'postgres.pp', environment: 'local'
   end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
 
-  # Puppet Modules
-  config.vm.provision "shell", inline: 'puppet module install puppetlabs-firewall'
+  # Solr server
+  config.vm.define "solr" do |solr|
+    solr.vm.box = "puppetlabs/centos-6.6-64-puppet"
+    solr.vm.box_version = "1.0.1"
 
-  # system provisioning
-  config.vm.provision "puppet"
+    solr.vm.hostname = 'solrlocal'
+    solr.vm.network "private_network", ip: "192.168.40.11"
 
-  # copy the default vagrant key so we can easily ssh between fcrepo and solr boxes
-  # this works because this base box adds the insecure public key to the vagrant
-  # user's authorized_hosts file
-  config.vm.provision "file",
-    source: "#{ENV['HOME']}/.vagrant.d/insecure_private_key",
-    destination: "/home/vagrant/.ssh/id_rsa"
-  # get pre-built artifacts (from Nexus)
-  config.vm.provision "shell", path: "scripts/artifacts.sh"
-  # install JDK
-  config.vm.provision "shell", path: "scripts/jdk.sh"
-  # install Tomcat
-  config.vm.provision "shell", path: "scripts/tomcat.sh"
-  # install Karaf
-  config.vm.provision "shell", path: "scripts/karaf.sh"
-  # install Fuseki
-  config.vm.provision "shell", path: "scripts/fuseki.sh"
-  # install runtime env
-  config.vm.provision "shell", path: "scripts/env.sh"
-  # deploy webapps
-  config.vm.provision "shell", path: "scripts/webapps.sh", privileged: false
-  # configure Apache runtime
-  config.vm.provision "shell", path: "scripts/apache.sh"
-  # create self-signed certificate for Apache
-  config.vm.provision "shell", path: "scripts/https-cert.sh"
-  # run Karaf setup
-  config.vm.provision "shell", path: "scripts/karaf-setup.sh", privileged: false
+    solr.vm.synced_folder "dist/solr", "/apps/dist"
 
+    # Puppet Modules
+    #solr.vm.provision "shell", inline: 'puppet module install puppetlabs-firewall'
+
+    # system provisioning
+    #solr.vm.provision "puppet"
+
+    # open ports in the firewall
+    solr.vm.provision "shell", path: 'scripts/solr/openports.sh', args: [8983, 8984]
+
+    # JDK
+    solr.vm.provision "shell", path: 'scripts/solr/jdk.sh'
+    # Solr
+    solr.vm.provision "shell", path: 'scripts/solr/solr.sh'
+
+    # CSR signing script
+    solr.vm.provision "file", source: 'files/solr/signcsr', destination: '/apps/ca/signcsr'
+    # Jetty config
+    solr.vm.provision "file", source: 'files/solr/jetty.xml', destination: '/apps/solr-4.10.3/example/etc/jetty.xml'
+
+    # start Solr
+    solr.vm.provision "shell", privileged: false, inline: <<-SHELL
+      cd /apps/solr-4.10.3/example
+      java -jar start.jar >solr.log &
+    SHELL
+  end
+
+  # Fedora 4 Application
+  config.vm.define "fcrepo" do |fcrepo|
+    fcrepo.vm.box = "puppetlabs/centos-6.6-64-puppet"
+    fcrepo.vm.box_version = "1.0.1"
+
+    fcrepo.vm.hostname = 'fcrepolocal'
+    fcrepo.vm.network "private_network", ip: "192.168.40.10"
+
+    fcrepo.vm.synced_folder "dist/fcrepo", "/apps/dist"
+    fcrepo.vm.synced_folder "/apps/git/fcrepo-env", "/apps/git/fcrepo-env"
+
+    fcrepo.vm.provider "virtualbox" do |vb|
+       vb.memory = "4096"
+    end
+
+    # Puppet Modules
+    fcrepo.vm.provision "shell", inline: 'puppet module install puppetlabs-firewall'
+
+    # system provisioning
+    fcrepo.vm.provision "puppet", manifest_file: 'fcrepo.pp', environment: 'local'
+
+    # copy the default vagrant key so we can easily ssh between fcrepo and solr boxes
+    # this works because this base box adds the insecure public key to the vagrant
+    # user's authorized_hosts file
+    fcrepo.vm.provision "file",
+      source: "#{ENV['HOME']}/.vagrant.d/insecure_private_key",
+      destination: "/home/vagrant/.ssh/id_rsa"
+    # get pre-built artifacts (from Nexus)
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/artifacts.sh"
+    # install JDK
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/jdk.sh"
+    # install Tomcat
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/tomcat.sh"
+    # install Karaf
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/karaf.sh"
+    # install Fuseki
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/fuseki.sh"
+    # install runtime env
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/env.sh"
+    # deploy webapps
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/webapps.sh", privileged: false
+    # configure Apache runtime
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/apache.sh"
+    # create self-signed certificate for Apache
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/https-cert.sh"
+    # run Karaf setup
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/karaf-setup.sh", privileged: false
+
+  end
 end
