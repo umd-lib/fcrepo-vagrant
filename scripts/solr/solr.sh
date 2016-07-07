@@ -42,6 +42,8 @@ fi
 
 cp /apps/dist/solr-ssl.keystore.jks "$SOLR_HOME/example"
 
+ln -s "$SOLR_HOME" /apps/solr
+
 mkdir -p /apps/ca
 
 chown -R "$SERVICE_USER_GROUP" "$SOLR_HOME" /apps/ca

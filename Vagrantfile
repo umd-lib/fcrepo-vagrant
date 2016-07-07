@@ -47,11 +47,11 @@ Vagrant.configure(2) do |config|
     # CSR signing script
     solr.vm.provision "file", source: 'files/solr/signcsr', destination: '/apps/ca/signcsr'
     # Jetty config
-    solr.vm.provision "file", source: 'files/solr/jetty.xml', destination: '/apps/solr-4.10.3/example/etc/jetty.xml'
+    solr.vm.provision "file", source: 'files/solr/jetty.xml', destination: '/apps/solr/example/etc/jetty.xml'
 
     # start Solr
     solr.vm.provision "shell", privileged: false, inline: <<-SHELL
-      cd /apps/solr-4.10.3/example
+      cd /apps/solr/example
       java -jar start.jar >solr.log &
     SHELL
   end
