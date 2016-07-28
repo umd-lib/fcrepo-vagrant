@@ -1,0 +1,3 @@
+#!/bin/bash
+
+keytool -gencert -rfc -validity 3650 -keystore /apps/solr-4.10.3/example/solr-ssl.keystore.jks -storepass changeme -alias solr-ssl
