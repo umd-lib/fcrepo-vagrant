@@ -104,5 +104,10 @@ Vagrant.configure(2) do |config|
     # run Karaf setup
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/karaf-setup.sh", privileged: false
 
+    # Add custom transformation and configure solr indexing to use it
+    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-transformation.txt', destination: '/apps/fedora/config/custom-transformation.txt'
+    fcrepo.vm.provision "file", source: 'files/fcrepo/karaf-solr-custom-tranformation-config', destination: '/apps/fedora/config/karaf-solr-custom-tranformation-config'
+    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-transformation-setup.sh', destination: '/apps/fedora/scripts/custom-transformation-setup.sh'
+
   end
 end
