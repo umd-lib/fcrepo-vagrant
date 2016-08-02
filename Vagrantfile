@@ -45,6 +45,9 @@ Vagrant.configure(2) do |config|
     solr.vm.provision "file", source: 'files/solr/signcsr', destination: '/apps/ca/signcsr'
     # Jetty config
     solr.vm.provision "file", source: 'files/solr/jetty.xml', destination: '/apps/solr/example/etc/jetty.xml'
+    solr.vm.provision "file", source: 'files/solr/schema.xml', destination: '/apps/solr/example/solr/fedora4/conf/schema.xml'
+    solr.vm.provision "file", source: 'files/solr/solrconfig.xml', destination: '/apps/solr/example/solr/fedora4/conf/solrconfig.xml'
+    solr.vm.provision "file", source: 'files/solr/blacklight-helper.js', destination: '/apps/solr/example/solr/fedora4/conf/blacklight-helper.js'
 
     # start Solr
     solr.vm.provision "shell", privileged: false, inline: <<-SHELL
