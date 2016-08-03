@@ -8,13 +8,36 @@
 */
 
 function processAdd(cmd) {
-
   doc = cmd.solrDoc;  // org.apache.solr.common.SolrInputDocument
   id = doc.getFieldValue("id");
   logger.info("update-script#processAdd: id=" + id);
   logger.info("update-script#processAdd: keys=" + doc.keySet());
+  setPCDM(doc);
+  setDisplayTitle(doc);
+}
 
-  // Set PCDM Type based on rdf_type and member type
+function processDelete(cmd) {
+  // no-op
+}
+
+function processMergeIndexes(cmd) {
+  // no-op
+}
+
+function processCommit(cmd) {
+  // no-op
+}
+
+function processRollback(cmd) {
+  // no-op
+}
+
+function finish() {
+  // no-op
+}
+
+// Set PCDM Type based on rdf_type and member type
+function setPCDM(doc) {
   pcdm_collection = "http://pcdm.org/models#Collection";
   pcdm_object = "http://pcdm.org/models#Object"; 
   pcdm_file = "http://pcdm.org/models#File";
@@ -60,7 +83,7 @@ function processAdd(cmd) {
         break;
       }
     }
-    if (type != null) {
+    if (type != "") {
       doc.setField("pcdm_type", type);
     }
   }
@@ -68,22 +91,24 @@ function processAdd(cmd) {
   doc.remove(pcdm_key);
 }
 
-function processDelete(cmd) {
-  // no-op
-}
+// Create single valued title 
+function setDisplayTitle(doc) {
+  title_key = "title";
+  title_val = null;
 
-function processMergeIndexes(cmd) {
-  // no-op
-}
+  if (doc.containsKey(title_key)) { 
+    title_val = doc.getFieldValues(title_key);
+  }
 
-function processCommit(cmd) {
-  // no-op
-}
-
-function processRollback(cmd) {
-  // no-op
-}
-
-function finish() {
-  // no-op
+  display_title = "";
+  if (title_val != null) {
+    titles = title_val.toArray();
+    if (titles.length > 0) {
+      display_title = titles[0];
+      for(i=0; i < titles.length - 1; i++) {
+        display_title = display_title + ", " + titles[0];
+      }
+      doc.setField("display_title", display_title);
+    }
+  }
 }
