@@ -1,0 +1,8 @@
+# run using:
+#   $ cd /apps/fedora/karaf
+#   $ bin/client -f /path/to/karaf-solr-custom-tranformation-config
+
+config:edit org.fcrepo.camel.indexing.solr
+config:property-set fcrepo.defaultTransform custom
+config:update
+

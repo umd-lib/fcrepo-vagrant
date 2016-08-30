@@ -17,15 +17,7 @@ tar xvzf "$SOLR_TGZ" --directory /apps
 SOLR_HOME=/apps/solr-${SOLR_VERSION}
 
 # set up fedora4 core
-
-# Fedora 4 Schema
-SCHEMA_URL=https://raw.githubusercontent.com/fcrepo4-exts/fcrepo4-vagrant-base-box/master/config/schema.xml
-
-if [ ! -e /apps/dist/schema.xml ]; then
-    curl -Lso /apps/dist/schema.xml "$SCHEMA_URL"
-fi
 cp -rp $SOLR_HOME/example/solr/collection1 $SOLR_HOME/example/solr/fedora4
-cp /apps/dist/schema.xml $SOLR_HOME/example/solr/fedora4/conf/
 sed -i -e's/collection1/fedora4/' $SOLR_HOME/example/solr/fedora4/core.properties
 
 # SSL

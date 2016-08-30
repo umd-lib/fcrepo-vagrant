@@ -45,6 +45,9 @@ Vagrant.configure(2) do |config|
     solr.vm.provision "file", source: 'files/solr/signcsr', destination: '/apps/ca/signcsr'
     # Jetty config
     solr.vm.provision "file", source: 'files/solr/jetty.xml', destination: '/apps/solr/example/etc/jetty.xml'
+    solr.vm.provision "file", source: 'files/solr/schema.xml', destination: '/apps/solr/example/solr/fedora4/conf/schema.xml'
+    solr.vm.provision "file", source: 'files/solr/solrconfig.xml', destination: '/apps/solr/example/solr/fedora4/conf/solrconfig.xml'
+    solr.vm.provision "file", source: 'files/solr/blacklight-helper.js', destination: '/apps/solr/example/solr/fedora4/conf/blacklight-helper.js'
 
     # start Solr
     solr.vm.provision "shell", privileged: false, inline: <<-SHELL
@@ -100,6 +103,11 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/https-cert.sh"
     # run Karaf setup
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/karaf-setup.sh", privileged: false
+
+    # Add custom transformation and configure solr indexing to use it
+    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-transformation.txt', destination: '/apps/fedora/config/custom-transformation.txt'
+    fcrepo.vm.provision "file", source: 'files/fcrepo/karaf-solr-custom-tranformation-config', destination: '/apps/fedora/config/karaf-solr-custom-tranformation-config'
+    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-transformation-setup.sh', destination: '/apps/fedora/scripts/custom-transformation-setup.sh'
 
   end
 end

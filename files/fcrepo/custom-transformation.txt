@@ -1,0 +1,14 @@
+@prefix fcrepo : <http://fedora.info/definitions/v4/repository#>
+@prefix pcdm : <http://pcdm.org/models#>
+@prefix rdf :  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+id      = . :: xsd:string ;
+title   = dc:title :: xsd:string;
+author  = dc:creator :: xsd:string;
+type   = dc:type :: xsd:string;
+subject   = dc:subject :: xsd:string;
+description   = dc:description :: xsd:string;
+rdf_type = rdf:type :: xsd:string;
+pcdm_has_member = pcdm:hasMember :: xsd:string;
+has_parent = fcrepo:hasParent :: xsd:string;
+created = fcrepo:created :: xsd:string;
+last_modified = fcrepo:lastModified :: xsd:string;
