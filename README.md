@@ -77,6 +77,17 @@ Congratulations, you should now have a running fcrepo-vagrant!
 * Fedora REST interface: <https://fcrepolocal/fcrepo/rest>
 * Solr Admin interface: <https://192.168.40.11:8984/solr>
 
+### Starting solr
+
+Solr will only start automatically during the first `vagrant up` (provisioning). 
+You should start solr manually anytime you restart the VM. 
+
+```
+vagrant ssh solr
+cd /apps/solr/example
+java -jar start.jar >> solr.log &
+```
+
 ### Restoring Repository Data
 
 If you restore repository data from a JCR backup, you will need to restart
