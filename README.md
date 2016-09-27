@@ -30,37 +30,25 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
     cp target/fcrepo-webapp-plus-webac-audit-4.5.1.war \
         /apps/git/fcrepo-vagrant/dist/fcrepo/fcrepo.war
     ```
-
-4. Build the fcrepo-indexing-solr JAR and place it in the
-   [dist/fcrepo](dist/fcrepo) directory:
-
-    ```
-    cd /apps/git
-    git clone git@github.com:umd-lib/fcrepo-camel-toolbox -b umd-custom
-    cd fcrepo-camel-toolbox/fcrepo-indexing-solr
-    mvn clean package
-    cp target/fcrepo-indexing-solr-4.5.2-umd-0-SNAPSHOT.jar \
-        /apps/git/fcrepo-vagrant/dist/fcrepo
-    ```
     
-5. Download an [Oracle JDK 8][jdk] tarball (current version is 8u65) and place a
+4. Download an [Oracle JDK 8][jdk] tarball (current version is 8u65) and place a
    copy of it in both the [dist/fcrepo](dist/fcrepo) and [dist/solr](dist/solr)
    directories.
 
-6. Add `fcrepolocal` to your workstation's `/etc/hosts` file:
+5. Add `fcrepolocal` to your workstation's `/etc/hosts` file:
 
     ```
     sudo echo "192.168.40.10  fcrepolocal" >> /etc/hosts
     ```
 
-7. Start the Vagrant:
+6. Start the Vagrant:
 
     ```
     cd /apps/git/fcrepo-vagrant
     vagrant up
     ```
 
-8. Run additional setup on fcrepo and start the applications:
+7. Run additional setup on fcrepo and start the applications:
 
     ```
     vagrant ssh fcrepo
