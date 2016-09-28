@@ -101,8 +101,6 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/apache.sh"
     # create self-signed certificate for Apache
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/https-cert.sh"
-    # run Karaf setup
-    fcrepo.vm.provision "shell", path: "scripts/fcrepo/karaf-setup.sh", privileged: false
 
     # Add custom transformation and configure solr indexing to use it
     fcrepo.vm.provision "file", source: 'files/fcrepo/custom-transformation.txt', destination: '/apps/fedora/config/custom-transformation.txt'
