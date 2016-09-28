@@ -8,3 +8,6 @@ $KARAF_HOME/bin/start
 sleep 5
 $KARAF_HOME/bin/client -f /apps/fedora/config/karaf-fcrepo-setup
 $KARAF_HOME/bin/stop
+
+# force removal of lock file
+rm $KARAF_HOME/lock
