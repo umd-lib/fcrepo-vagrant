@@ -103,7 +103,8 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/https-cert.sh"
 
     # Add custom transformation and configure solr indexing to use it
-    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-transformation.txt', destination: '/apps/fedora/config/custom-transformation.txt'
+    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-container-transformation.txt', destination: '/apps/fedora/config/custom-container-transformation.txt'
+    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-binary-transformation.txt', destination: '/apps/fedora/config/custom-binary-transformation.txt'
     fcrepo.vm.provision "file", source: 'files/fcrepo/karaf-solr-custom-tranformation-config', destination: '/apps/fedora/config/karaf-solr-custom-tranformation-config'
     fcrepo.vm.provision "file", source: 'files/fcrepo/custom-transformation-setup.sh', destination: '/apps/fedora/scripts/custom-transformation-setup.sh'
 

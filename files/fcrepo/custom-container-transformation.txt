@@ -10,5 +10,6 @@ description   = dc:description :: xsd:string;
 rdf_type = rdf:type :: xsd:string;
 pcdm_has_member = pcdm:hasMember :: xsd:string;
 has_parent = fcrepo:hasParent :: xsd:string;
+created_by = fcrepo:createdBy :: xsd:string;
 created = fcrepo:created :: xsd:string;
 last_modified = fcrepo:lastModified :: xsd:string;
