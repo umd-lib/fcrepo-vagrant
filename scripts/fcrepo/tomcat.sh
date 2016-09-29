@@ -22,5 +22,6 @@ mkdir -p "$CATALINA_BASE"/{logs,temp}
 # local libs
 mkdir -p "$CATALINA_BASE/lib"
 cp /apps/dist/optional-authn-valve-*.jar "$CATALINA_BASE/lib"
+cp /apps/dist/header-to-cert-valve-*.jar "$CATALINA_BASE/lib"
 
 chown -R "$SERVICE_USER_GROUP" "$CATALINA_BASE"
