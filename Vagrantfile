@@ -102,6 +102,8 @@ Vagrant.configure(2) do |config|
     # create self-signed certificate for Apache
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/https-cert.sh"
 
+    # Add server-specific environment config
+    fcrepo.vm.provision "file", source: 'files/fcrepo/env', destination: '/apps/fedora/config/env'
     # Add custom transformation and configure solr indexing to use it
     fcrepo.vm.provision "file", source: 'files/fcrepo/custom-container-transformation.txt', destination: '/apps/fedora/config/custom-container-transformation.txt'
     fcrepo.vm.provision "file", source: 'files/fcrepo/custom-binary-transformation.txt', destination: '/apps/fedora/config/custom-binary-transformation.txt'

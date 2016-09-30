@@ -1,0 +1,21 @@
+# # vim:ft=sh
+# Apache
+export LISTEN_IP=192.168.40.10
+export VIRTUAL_HOST_IP=$LISTEN_IP
+export SERVER_FQDN=fcrepolocal
+export SSL_CERT_NAME=fcrepolocal
+export SSL_KEY_NAME=fcrepolocal
+export TOMCAT_PROXY=https://localhost:9601
+export FUSEKI_PROXY=http://$LISTEN_IP:3030
+export SERVICE_USER=vagrant
+export SERVICE_GROUP=vagrant
+# Tomcat
+export PROXY_NAME=fcrepolocal
+export KEY_ALIAS=fcrepolocal
+export PG_HOSTNAME=192.168.40.12
+export PG_USERNAME=fcrepo
+export PG_PASSWORD=fcrepo
+# Karaf
+export FCREPO_SERVER=localhost:9601
+export SOLR_SERVER=solrlocal:8984
+export FUSEKI_SERVER=localhost:3030
