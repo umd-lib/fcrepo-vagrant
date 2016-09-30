@@ -1,0 +1,9 @@
+#!/bin/bash
+
+CN=${1:-fcrepolocal-client}
+FILENAME=${2:-$CN}
+
+# create client cert
+openssl req -new -nodes -newkey rsa:2048 -keyout "${FILENAME}.key" -subj "/CN=${CN}" \
+    | vagrant ssh fcrepo -- /apps/fedora/scripts/signcsr \
+    > "${FILENAME}.pem"
