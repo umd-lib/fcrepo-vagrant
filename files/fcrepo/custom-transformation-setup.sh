@@ -1,11 +1,23 @@
 #!/bin/bash
 
-transformation_file=/apps/fedora/config/custom-transformation.txt
+container_transformation_file=/apps/fedora/config/custom-container-transformation.txt
+binary_transformation_file=/apps/fedora/config/custom-binary-transformation.txt
 
-curl -k -X PUT "https://localhost:9601/fcrepo/rest/fedora:system" --key /apps/fedora/ssl/backup-client.key --cert /apps/fedora/ssl/backup-client.pem -o /dev/null -s
-status=$(curl -k -X PUT  -H "Content-Type: application/rdf+ldpath" --data-binary "@$transformation_file" "https://localhost:9601/fcrepo/rest/fedora:system/fedora:transform/fedora:ldpath/custom/fedora:Container" -s -w "%{http_code}" --key /apps/fedora/ssl/backup-client.key --cert /apps/fedora/ssl/backup-client.pem -o /dev/null)
+FCREPO_URL=https://localhost:9601/fcrepo/rest
+KEY_PATH=/apps/fedora/ssl/backup-client.key
+CERT_PATH=/apps/fedora/ssl/backup-client.pem
 
-if [ $status == 201 ] ;
+curl -k -X PUT "$FCREPO_URL/fedora:system" --key $KEY_PATH --cert $CERT_PATH -o /dev/null -s
+curl -k -X PUT "$FCREPO_URL/fedora:system/fedora:transform/fedora:ldpath/custom/" --key $KEY_PATH --cert $CERT_PATH -o /dev/null -s
+
+CONTENT_TYPE="Content-Type: application/rdf+ldpath"
+CONTAINER_PATH=fedora:system/fedora:transform/fedora:ldpath/custom/fedora:Container
+BINARY_PATH=fedora:system/fedora:transform/fedora:ldpath/custom/fedora:Binary
+
+container_status=$(curl -k -X PUT  -H "$CONTENT_TYPE" --data-binary "@$container_transformation_file" "$FCREPO_URL/$CONTAINER_PATH" -s -w "%{http_code}" --key $KEY_PATH --cert $CERT_PATH -o /dev/null)
+binary_status=$(curl -k -X PUT  -H "$CONTENT_TYPE" --data-binary "@$binary_transformation_file" "$FCREPO_URL/$BINARY_PATH" -s -w "%{http_code}" --key $KEY_PATH --cert $CERT_PATH -o /dev/null)
+
+if ([ $container_status == 201 ] || [ $container_status == 204 ]) && ([ $binary_status == 201 ] || [ $container_status == 204 ]) ;
 then
   echo "Added custom transformation!" 
 else
