@@ -14,6 +14,6 @@ export PG_HOSTNAME=192.168.40.12
 export PG_USERNAME=fcrepo
 export PG_PASSWORD=fcrepo
 # Karaf
-export FCREPO_SERVER=localhost:9601
+export FCREPO_SERVER=fcrepolocal
 export SOLR_SERVER=solrlocal:8984
 export FUSEKI_SERVER=localhost:3030
