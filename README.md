@@ -14,10 +14,10 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
     ```
 
 2. Clone [fcrepo-env] into
-   `/apps/git/fcrepo-env`, and check out the `vagrant` branch:
+   `/apps/git/fcrepo-env`, and check out the `develop` branch:
    
     ```
-    git clone git@github.com:umd-lib/fcrepo-env.git -b vagrant
+    git clone git@github.com:umd-lib/fcrepo-env.git -b develop
     ```
 
 3. Build an fcrepo.war webapp and place it in the [dist/fcrepo](dist/fcrepo) 
@@ -73,7 +73,7 @@ You should start solr manually anytime you restart the VM.
 ```
 vagrant ssh solr
 cd /apps/solr/example
-java -jar start.jar >> solr.log &
+nohup java -jar start.jar >> solr.log &
 ```
 
 ### Restoring Repository Data
