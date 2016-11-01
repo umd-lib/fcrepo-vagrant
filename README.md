@@ -52,9 +52,7 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
 
     ```
     vagrant ssh fcrepo
-    cd /apps/fedora/scripts
-    ./sslsetup.sh
-    cd ..
+    cd /apps/fedora
     ./control start
     ```
 
