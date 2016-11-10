@@ -109,6 +109,11 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "file", source: 'files/fcrepo/custom-binary-transformation.txt', destination: '/apps/fedora/config/custom-binary-transformation.txt'
     fcrepo.vm.provision "file", source: 'files/fcrepo/karaf-solr-custom-tranformation-config', destination: '/apps/fedora/config/karaf-solr-custom-tranformation-config'
     fcrepo.vm.provision "file", source: 'files/fcrepo/custom-transformation-setup.sh', destination: '/apps/fedora/scripts/custom-transformation-setup.sh'
+    fcrepo.vm.provision "file", source: 'files/fcrepo/add-iiif-acl.sh', destination: '/apps/fedora/scripts/add-iiif-acl.sh'
+    fcrepo.vm.provision "file", source: 'files/fcrepo/initialize.sh', destination: '/apps/fedora/scripts/initialize.sh'
+    fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./sslsetup.sh", privileged: false
+    fcrepo.vm.provision "shell", inline: "cd /apps/fedora && ./control start", privileged: false
+    fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./initialize.sh", privileged: false
 
   end
 end

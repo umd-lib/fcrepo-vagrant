@@ -52,9 +52,7 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
 
     ```
     vagrant ssh fcrepo
-    cd /apps/fedora/scripts
-    ./sslsetup.sh
-    cd ..
+    cd /apps/fedora
     ./control start
     ```
 
@@ -65,15 +63,24 @@ Congratulations, you should now have a running fcrepo-vagrant!
 * Fedora REST interface: <https://fcrepolocal/fcrepo/rest>
 * Solr Admin interface: <https://192.168.40.11:8984/solr>
 
-### Starting solr
+### Starting the application 
 
-Solr will only start automatically during the first `vagrant up` (provisioning). 
-You should start solr manually anytime you restart the VM. 
+The applications will only start automatically during the first `vagrant up` (provisioning). 
+You should start solr and fedora manually anytime you restart the VM. 
 
+#### Start Solr
 ```
 vagrant ssh solr
 cd /apps/solr/example
 nohup java -jar start.jar >> solr.log &
+```
+
+
+#### Start Fedora
+```
+    vagrant ssh fcrepo
+    cd /apps/fedora
+    ./control start
 ```
 
 ### Restoring Repository Data
