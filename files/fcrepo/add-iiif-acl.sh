@@ -38,20 +38,20 @@ WHERE {}
 EOM
 
 # Create the repo-viewers group with CN=iiif user as a member
-curl -k --key $KEY_PATH --cert $CERT_PATH -X PUT "$FCREPO_URL/groups"
+curl -s -k --key $KEY_PATH --cert $CERT_PATH -X PUT "$FCREPO_URL/groups"
 echo
-curl -k --key $KEY_PATH --cert $CERT_PATH -X PUT -H "$CONTENT_TYPE" --data "$REPO_VIEWERS"  "$FCREPO_URL/groups/repo-viewers"
+curl -s -k --key $KEY_PATH --cert $CERT_PATH -X PUT -H "$CONTENT_TYPE" --data "$REPO_VIEWERS"  "$FCREPO_URL/groups/repo-viewers"
 
 # Create the acl and authorization to allow read access to the entire repository for the repo-viewers group.
-curl -k --key $KEY_PATH --cert $CERT_PATH -X PUT "$FCREPO_URL/acls"
+curl -s -k --key $KEY_PATH --cert $CERT_PATH -X PUT "$FCREPO_URL/acls"
 echo
-curl -k --key $KEY_PATH --cert $CERT_PATH -X PUT -H "$CONTENT_TYPE" --data "$REPO_ROOT_ACL"  "$FCREPO_URL/acls/repository-root"
+curl -s -k --key $KEY_PATH --cert $CERT_PATH -X PUT -H "$CONTENT_TYPE" --data "$REPO_ROOT_ACL"  "$FCREPO_URL/acls/repository-root"
 echo
-curl -k --key $KEY_PATH --cert $CERT_PATH -X PUT -H "$CONTENT_TYPE" --data "$READ_AUTH"  "$FCREPO_URL/acls/repository-root/read"
+curl -s -k --key $KEY_PATH --cert $CERT_PATH -X PUT -H "$CONTENT_TYPE" --data "$READ_AUTH"  "$FCREPO_URL/acls/repository-root/read"
 echo
 
 # Configure root to use the ACL
 SPARQL_CONT_TYPE="Content-Type: application/sparql-update"
-curl -k --key $KEY_PATH --cert $CERT_PATH  -X PATCH  -H "$SPARQL_CONT_TYPE" --data "$ROOT_ACL"  "$FCREPO_URL"
+curl -s -k --key $KEY_PATH --cert $CERT_PATH  -X PATCH  -H "$SPARQL_CONT_TYPE" --data "$ROOT_ACL"  "$FCREPO_URL"
 echo
 
