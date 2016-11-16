@@ -14,10 +14,10 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
     ```
 
 2. Clone [fcrepo-env] into
-   `/apps/git/fcrepo-env`, and check out the `develop` branch:
+   `/apps/git/fcrepo-env`, and check out the `release/0.1.0` branch:
    
     ```
-    git clone git@github.com:umd-lib/fcrepo-env.git -b develop
+    git clone git@github.com:umd-lib/fcrepo-env.git -b release/0.1.0
     ```
 
 3. Build an fcrepo.war webapp and place it in the [dist/fcrepo](dist/fcrepo) 
@@ -46,14 +46,6 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
     ```
     cd /apps/git/fcrepo-vagrant
     vagrant up
-    ```
-
-7. Run additional setup on fcrepo and start the applications:
-
-    ```
-    vagrant ssh fcrepo
-    cd /apps/fedora
-    ./control start
     ```
 
 Congratulations, you should now have a running fcrepo-vagrant!
@@ -98,15 +90,12 @@ access to <https://fcrepolocal/fcrepo/rest/tmp>.
 ### Self-Signed Certificate Warnings
 
 The Apache web server in this Vagrant is configured to use a self-signed
-certificate, which is regenerated each time you provision the Vagrant. This
-means that the first time you bring up the Vagrant, and whenever you destroy and
-recreate it, when you access <https://fcrepolocal/> through your browser, you
-will get a certificate security warning.
+certificate. This means that the first time you bring up the Vagrant, when you access <https://fcrepolocal/> through your browser, you will get a certificate 
+security warning. The SSL certificate is cached in [dist/fcrepo](dist/fcrepo), so
+if you destory and recreate the Vagrant, you will not have to add a new security exception. You can at any time delete the cached certificate to force the
+regeneration the next time you provision the Vagrant.
 
-The Solr web server also uses a self-signed HTTPS certificate, although that box
-caches the certificate in [dist/solr](dist/solr) between runs, so you should
-only have to enable a security exception in your browser for
-<https://192.168.40.11:8984> once.
+The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/solr](dist/solr).
 
 ## VM Info
 
