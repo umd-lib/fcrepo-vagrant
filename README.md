@@ -24,7 +24,7 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
    directory:
 
     ```
-    git clone git@github.com:umd-lib/fcrepo -b umd-develop
+    git clone git@github.com:umd-lib/fcrepo -b umd-4.5.1
     cd fcrepo
     mvn clean package -Pwebac,noauth,audit
     cp target/fcrepo-webapp-plus-webac-audit-4.5.1.war \
