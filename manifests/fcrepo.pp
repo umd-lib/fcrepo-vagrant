@@ -28,6 +28,9 @@ package { 'tree':
 package { 'lsof':
   ensure => present,
 }
+package { 'jq':
+  ensure => present,
+}
 
 host { 'fcrepolocal':
   ip => '192.168.40.10',
