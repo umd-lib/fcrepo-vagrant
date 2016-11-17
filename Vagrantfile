@@ -104,6 +104,7 @@ Vagrant.configure(2) do |config|
 
     # Add server-specific environment config
     fcrepo.vm.provision "file", source: 'files/fcrepo/env', destination: '/apps/fedora/config/env'
+    fcrepo.vm.provision "file", source: 'files/fcrepo/add-iiif-acl.sh', destination: '/apps/fedora/scripts/add-iiif-acl.sh'
 
     # Create SSL CA and client certificates
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./sslsetup.sh", privileged: false
