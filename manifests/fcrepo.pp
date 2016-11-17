@@ -30,6 +30,7 @@ package { 'lsof':
 }
 package { 'jq':
   ensure => present,
+  require => Package['epel-release'],
 }
 
 host { 'fcrepolocal':
