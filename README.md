@@ -19,41 +19,23 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
     ```
     git clone git@github.com:umd-lib/fcrepo-env.git -b develop
     ```
-
-3. Build an fcrepo.war webapp and place it in the [dist/fcrepo](dist/fcrepo) 
-   directory:
-
-    ```
-    git clone git@github.com:umd-lib/fcrepo -b umd-develop
-    cd fcrepo
-    mvn clean package -Pwebac,noauth,audit
-    cp target/fcrepo-webapp-plus-webac-audit-4.5.1.war \
-        /apps/git/fcrepo-vagrant/dist/fcrepo/fcrepo.war
-    ```
     
-4. Download an [Oracle JDK 8][jdk] tarball (current version is 8u65) and place a
+3. Download an [Oracle JDK 8][jdk] tarball (current version is 8u65) and place a
    copy of it in both the [dist/fcrepo](dist/fcrepo) and [dist/solr](dist/solr)
    directories.
 
-5. Add `fcrepolocal` to your workstation's `/etc/hosts` file:
+4. Add `fcrepolocal` and `solrlocal` to your workstation's `/etc/hosts` file:
 
     ```
     sudo echo "192.168.40.10  fcrepolocal" >> /etc/hosts
+    sudo echo "192.168.40.11  solrlocal" >> /etc/hosts
     ```
 
-6. Start the Vagrant:
+5. Start the Vagrant:
 
     ```
     cd /apps/git/fcrepo-vagrant
     vagrant up
-    ```
-
-7. Run additional setup on fcrepo and start the applications:
-
-    ```
-    vagrant ssh fcrepo
-    cd /apps/fedora
-    ./control start
     ```
 
 Congratulations, you should now have a running fcrepo-vagrant!
@@ -61,7 +43,7 @@ Congratulations, you should now have a running fcrepo-vagrant!
 * Application Landing Page: <https://fcrepolocal/>
 * Log in: <https://fcrepolocal/user>
 * Fedora REST interface: <https://fcrepolocal/fcrepo/rest>
-* Solr Admin interface: <https://192.168.40.11:8984/solr>
+* Solr Admin interface: <https://solrlocal:8984/solr>
 
 ### Starting the application 
 
@@ -78,9 +60,9 @@ nohup java -jar start.jar >> solr.log &
 
 #### Start Fedora
 ```
-    vagrant ssh fcrepo
-    cd /apps/fedora
-    ./control start
+vagrant ssh fcrepo
+cd /apps/fedora
+./control start
 ```
 
 ### Restoring Repository Data
@@ -88,6 +70,22 @@ nohup java -jar start.jar >> solr.log &
 If you restore repository data from a JCR backup, you will need to restart
 Tomcat before indexing will work properly. For some reason, the JCR restore
 processes causes Tomcat to stop sending JMS messages.
+
+### Client Certificates
+
+To create a client certificate signed by the fcrepo Vagrant's CA, run the
+[bin/clientcert](bin/clientcert) script from the host (*not* the Vagrant!):
+
+```
+bin/clientcert
+# creates fcrepo-client.{key,pem} with subject CN=fcrepo-client
+
+bin/clientcert batchloader
+# creates bactchloader.{key,pem} with subject CN=batchloader
+
+bin/clientcert batchloader bactchloader-client
+# creates batchloader-client.{key,pem} with subject CN=batchloader
+```
 
 ### Testing
 
