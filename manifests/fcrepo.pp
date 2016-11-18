@@ -28,6 +28,10 @@ package { 'tree':
 package { 'lsof':
   ensure => present,
 }
+package { 'jq':
+  ensure => present,
+  require => Package['epel-release'],
+}
 
 host { 'fcrepolocal':
   ip => '192.168.40.10',

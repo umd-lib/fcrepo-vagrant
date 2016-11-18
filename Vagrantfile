@@ -104,16 +104,17 @@ Vagrant.configure(2) do |config|
 
     # Add server-specific environment config
     fcrepo.vm.provision "file", source: 'files/fcrepo/env', destination: '/apps/fedora/config/env'
-    # Add custom transformation and configure solr indexing to use it
-    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-container-transformation.txt', destination: '/apps/fedora/config/custom-container-transformation.txt'
-    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-binary-transformation.txt', destination: '/apps/fedora/config/custom-binary-transformation.txt'
-    fcrepo.vm.provision "file", source: 'files/fcrepo/karaf-solr-custom-tranformation-config', destination: '/apps/fedora/config/karaf-solr-custom-tranformation-config'
-    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-transformation-setup.sh', destination: '/apps/fedora/scripts/custom-transformation-setup.sh'
     fcrepo.vm.provision "file", source: 'files/fcrepo/add-iiif-acl.sh', destination: '/apps/fedora/scripts/add-iiif-acl.sh'
-    fcrepo.vm.provision "file", source: 'files/fcrepo/initialize.sh', destination: '/apps/fedora/scripts/initialize.sh'
+
+    # Create SSL CA and client certificates
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./sslsetup.sh", privileged: false
+
+    # Start the applications
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora && ./control start", privileged: false
-    fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./initialize.sh", privileged: false
+
+    # Bootstrap the ACLs for the iiif server user
+    # TODO: broaden this to a generic bootstrapping (see https://issues.umd.edu/browse/LIBFCREPO-122)
+    fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./add-iiif-acl.sh", privileged: false
 
   end
 end
