@@ -16,10 +16,6 @@ tar xvzf "$SOLR_TGZ" --directory /apps
 
 SOLR_HOME=/apps/solr-${SOLR_VERSION}
 
-# set up fedora4 core
-cp -rp $SOLR_HOME/example/solr/collection1 $SOLR_HOME/example/solr/fedora4
-sed -i -e's/collection1/fedora4/' $SOLR_HOME/example/solr/fedora4/core.properties
-
 # SSL
 
 # only generate this cert once then cache in /apps/dist; that way there won't be
