@@ -14,10 +14,10 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
     ```
 
 2. Clone [fcrepo-env] into
-   `/apps/git/fcrepo-env`, and check out the `release/0.1.0` branch:
+   `/apps/git/fcrepo-env`, and check out the `0.1.0` tag:
    
     ```
-    git clone git@github.com:umd-lib/fcrepo-env.git -b release/0.1.0
+    git clone git@github.com:umd-lib/fcrepo-env.git -b 0.1.0
     ```
 
 3. Build an fcrepo.war webapp and place it in the [dist/fcrepo](dist/fcrepo) 
@@ -109,5 +109,5 @@ The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/s
 [Vagrantfile](Vagrantfile)
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html
-[fcrepo-env]: https://github.com/umd-lib/fcrepo-env
+[fcrepo-env]: https://github.com/umd-lib/fcrepo-env/tree/0.1.0
 [fcrepo-test]: https://bitbucket.org/umd-lib/fcrepo-test
