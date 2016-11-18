@@ -96,15 +96,12 @@ access to <https://fcrepolocal/fcrepo/rest/tmp>.
 ### Self-Signed Certificate Warnings
 
 The Apache web server in this Vagrant is configured to use a self-signed
-certificate, which is regenerated each time you provision the Vagrant. This
-means that the first time you bring up the Vagrant, and whenever you destroy and
-recreate it, when you access <https://fcrepolocal/> through your browser, you
-will get a certificate security warning.
+certificate. This means that the first time you bring up the Vagrant, when you access <https://fcrepolocal/> through your browser, you will get a certificate 
+security warning. The SSL certificate is cached in [dist/fcrepo](dist/fcrepo), so
+if you destory and recreate the Vagrant, you will not have to add a new security exception. You can at any time delete the cached certificate to force the
+regeneration the next time you provision the Vagrant.
 
-The Solr web server also uses a self-signed HTTPS certificate, although that box
-caches the certificate in [dist/solr](dist/solr) between runs, so you should
-only have to enable a security exception in your browser for
-<https://192.168.40.11:8984> once.
+The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/solr](dist/solr).
 
 ## VM Info
 
@@ -118,5 +115,5 @@ only have to enable a security exception in your browser for
 [Vagrantfile](Vagrantfile)
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html
-[fcrepo-env]: https://github.com/umd-lib/fcrepo-env
+[fcrepo-env]: https://github.com/umd-lib/fcrepo-env/tree/0.1.0
 [fcrepo-test]: https://bitbucket.org/umd-lib/fcrepo-test
