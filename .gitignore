@@ -1,5 +1,3 @@
 /.vagrant/
-/dist/*.tar.gz
-/dist/*.zip
-/dist/*.jar
-/dist/*.war
+/dist/*/*
+!/dist/*/README.md

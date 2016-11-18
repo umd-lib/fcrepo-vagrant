@@ -3,7 +3,7 @@
 SERVICE_USER_GROUP=vagrant:vagrant
 
 # Karaf
-KARAF_VERSION=3.0.5
+KARAF_VERSION=4.0.4
 KARAF_TGZ=/apps/dist/apache-karaf-${KARAF_VERSION}.tar.gz
 # look for a cached tarball
 if [ ! -e "$KARAF_TGZ" ]; then
