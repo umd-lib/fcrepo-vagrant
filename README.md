@@ -57,12 +57,23 @@ cd /apps/solr/example
 nohup java -jar start.jar >> solr.log &
 ```
 
-
 #### Start Fedora
 ```
 vagrant ssh fcrepo
 cd /apps/fedora
 ./control start
+```
+
+### Bootstrap Repository Data
+
+By default, the last step of provisioning the fcrepo machine creates a skeleton
+of bootstrap content in the repository (top level containers and minimal ACLs to
+support testing and interaction with the IIIF server). You can disable this step
+to start from an empty repository by setting the environment variable `EMPTY_REPO`
+before starting the Vagrant:
+
+```
+EMPTY_REPO=1 vagrant up
 ```
 
 ### Restoring Repository Data

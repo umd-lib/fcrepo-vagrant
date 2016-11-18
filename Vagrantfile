@@ -104,7 +104,6 @@ Vagrant.configure(2) do |config|
 
     # Add server-specific environment config
     fcrepo.vm.provision "file", source: 'files/fcrepo/env', destination: '/apps/fedora/config/env'
-    fcrepo.vm.provision "file", source: 'files/fcrepo/add-iiif-acl.sh', destination: '/apps/fedora/scripts/add-iiif-acl.sh'
 
     # Create SSL CA and client certificates
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./sslsetup.sh", privileged: false
@@ -112,9 +111,10 @@ Vagrant.configure(2) do |config|
     # Start the applications
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora && ./control start", privileged: false
 
-    # Bootstrap the ACLs for the iiif server user
-    # TODO: broaden this to a generic bootstrapping (see https://issues.umd.edu/browse/LIBFCREPO-122)
-    fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./add-iiif-acl.sh", privileged: false
+    unless ENV['EMPTY_REPO']
+      # Bootstrap the top-level collections and ACLs
+      fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts/bootstrap && ./bootstrap-repo.sh", privileged: false
+    end
 
   end
 end
