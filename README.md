@@ -17,7 +17,7 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
    branch:
    
     ```
-    git clone git@github.com:umd-lib/fcrepo-env.git -b develop
+    git clone git@bitbucket.org:umd-lib/fcrepo-env.git -b develop
     ```
     
 3. Clone [fedora4-core] into `/apps/git/fedora4-core`, and check out the `develop`
