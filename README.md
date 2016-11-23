@@ -125,7 +125,7 @@ The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/s
 
 |Box Name |Hostname   |IP Address   |OS        |Open Ports|
 |---------|-----------|-------------|----------|----------|
-|fcrepo   |fcrepolocal|192.168.40.10|CentOS 6.6|80,82,443 |
+|fcrepo   |fcrepolocal|192.168.40.10|CentOS 6.6|80,443 |
 |solr     |solrlocal  |192.168.40.11|CentOS 6.6|8983,8984 |
 |postgres |pglocal    |192.168.40.12|CentOS 6.6|5432      |
 

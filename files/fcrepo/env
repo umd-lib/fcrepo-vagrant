@@ -16,4 +16,4 @@ export PG_PASSWORD=fcrepo
 # Karaf
 export FCREPO_SERVER=fcrepolocal
 export SOLR_SERVER=solrlocal:8984
-export FUSEKI_SERVER=localhost:3030
+export FUSEKI_SERVER=fcrepolocal
