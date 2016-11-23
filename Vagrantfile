@@ -29,6 +29,7 @@ Vagrant.configure(2) do |config|
     solr.vm.network "private_network", ip: "192.168.40.11"
 
     solr.vm.synced_folder "dist/solr", "/apps/dist"
+    solr.vm.synced_folder "/apps/git/fedora4-core", "/apps/git/fedora4-core"
 
     # Puppet Modules
     solr.vm.provision "shell", inline: 'puppet module install puppetlabs-firewall'
@@ -41,13 +42,13 @@ Vagrant.configure(2) do |config|
     # Solr
     solr.vm.provision "shell", path: 'scripts/solr/solr.sh'
 
+    # fedora4 Solr core
+    solr.vm.provision "shell", path: 'scripts/solr/cores.sh'
+
     # CSR signing script
     solr.vm.provision "file", source: 'files/solr/signcsr', destination: '/apps/ca/signcsr'
     # Jetty config
     solr.vm.provision "file", source: 'files/solr/jetty.xml', destination: '/apps/solr/example/etc/jetty.xml'
-    solr.vm.provision "file", source: 'files/solr/schema.xml', destination: '/apps/solr/example/solr/fedora4/conf/schema.xml'
-    solr.vm.provision "file", source: 'files/solr/solrconfig.xml', destination: '/apps/solr/example/solr/fedora4/conf/solrconfig.xml'
-    solr.vm.provision "file", source: 'files/solr/blacklight-helper.js', destination: '/apps/solr/example/solr/fedora4/conf/blacklight-helper.js'
 
     # start Solr
     solr.vm.provision "shell", privileged: false, inline: <<-SHELL

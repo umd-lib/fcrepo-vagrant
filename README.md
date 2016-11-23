@@ -13,25 +13,32 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
     git clone git@github.com:umd-lib/fcrepo-vagrant
     ```
 
-2. Clone [fcrepo-env] into
-   `/apps/git/fcrepo-env`, and check out the `develop` branch:
+2. Clone [fcrepo-env] into `/apps/git/fcrepo-env`, and check out the `develop`
+   branch:
    
     ```
     git clone git@github.com:umd-lib/fcrepo-env.git -b develop
     ```
     
-3. Download an [Oracle JDK 8][jdk] tarball (current version is 8u65) and place a
+3. Clone [fedora4-core] into `/apps/git/fedora4-core`, and check out the `develop`
+   branch:
+   
+   ```
+   git clone git@bitbucket.org:umd-lib/fedora4-core.git -b develop
+   ```
+    
+4. Download an [Oracle JDK 8][jdk] tarball (current version is 8u65) and place a
    copy of it in both the [dist/fcrepo](dist/fcrepo) and [dist/solr](dist/solr)
    directories.
 
-4. Add `fcrepolocal` and `solrlocal` to your workstation's `/etc/hosts` file:
+5. Add `fcrepolocal` and `solrlocal` to your workstation's `/etc/hosts` file:
 
     ```
     sudo echo "192.168.40.10  fcrepolocal" >> /etc/hosts
     sudo echo "192.168.40.11  solrlocal" >> /etc/hosts
     ```
 
-5. Start the Vagrant:
+6. Start the Vagrant:
 
     ```
     cd /apps/git/fcrepo-vagrant
@@ -127,4 +134,5 @@ The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/s
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html
 [fcrepo-env]: https://github.com/umd-lib/fcrepo-env/tree/0.1.0
+[fedora4-core]: https://bitbucket.org/umd-lib/fedora4-core
 [fcrepo-test]: https://bitbucket.org/umd-lib/fcrepo-test
