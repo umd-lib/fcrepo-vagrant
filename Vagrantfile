@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+system("scripts/install-trigger-plugin.sh")
+
 Vagrant.configure(2) do |config|
 
   # PostgreSQL server
@@ -59,6 +61,10 @@ Vagrant.configure(2) do |config|
 
   # Fedora 4 Application
   config.vm.define "fcrepo" do |fcrepo|
+    config.trigger.before :up do
+      run  "scripts/fcrepo/restart-postgres.sh"
+    end
+
     fcrepo.vm.box = "puppetlabs/centos-6.6-64-puppet"
     fcrepo.vm.box_version = "1.0.1"
 
