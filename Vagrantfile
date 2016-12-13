@@ -84,6 +84,12 @@ Vagrant.configure(2) do |config|
     # system provisioning
     fcrepo.vm.provision "puppet", manifest_file: 'fcrepo.pp', environment: 'local'
 
+    # configure Git
+    fcrepo.vm.provision 'shell', path: 'scripts/fcrepo/git.sh', args: [`git config user.name`, `git config user.email`],
+      privileged: false
+    # install runtime env
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/env.sh"
+
     # copy the default vagrant key so we can easily ssh between fcrepo and solr boxes
     # this works because this base box adds the insecure public key to the vagrant
     # user's authorized_hosts file
@@ -100,8 +106,6 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/karaf.sh"
     # install Fuseki
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/fuseki.sh"
-    # install runtime env
-    fcrepo.vm.provision "shell", path: "scripts/fcrepo/env.sh"
     # deploy webapps
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/webapps.sh", privileged: false
     # configure Apache runtime
