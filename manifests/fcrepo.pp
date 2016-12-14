@@ -35,6 +35,9 @@ package { 'jq':
 package { 'nc':
   ensure => present,
 }
+package { 'git':
+  ensure => present,
+}
 
 host { 'fcrepolocal':
   ip => '192.168.40.10',
