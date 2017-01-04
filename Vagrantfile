@@ -29,6 +29,7 @@ Vagrant.configure(2) do |config|
     solr.vm.network "private_network", ip: "192.168.40.11"
 
     solr.vm.synced_folder "dist/solr", "/apps/dist"
+    solr.vm.synced_folder "/apps/git/fedora4-core", "/apps/git/fedora4-core"
 
     # Puppet Modules
     solr.vm.provision "shell", inline: 'puppet module install puppetlabs-firewall'
@@ -41,13 +42,13 @@ Vagrant.configure(2) do |config|
     # Solr
     solr.vm.provision "shell", path: 'scripts/solr/solr.sh'
 
+    # fedora4 Solr core
+    solr.vm.provision "shell", path: 'scripts/solr/cores.sh'
+
     # CSR signing script
     solr.vm.provision "file", source: 'files/solr/signcsr', destination: '/apps/ca/signcsr'
     # Jetty config
     solr.vm.provision "file", source: 'files/solr/jetty.xml', destination: '/apps/solr/example/etc/jetty.xml'
-    solr.vm.provision "file", source: 'files/solr/schema.xml', destination: '/apps/solr/example/solr/fedora4/conf/schema.xml'
-    solr.vm.provision "file", source: 'files/solr/solrconfig.xml', destination: '/apps/solr/example/solr/fedora4/conf/solrconfig.xml'
-    solr.vm.provision "file", source: 'files/solr/blacklight-helper.js', destination: '/apps/solr/example/solr/fedora4/conf/blacklight-helper.js'
 
     # start Solr
     solr.vm.provision "shell", privileged: false, inline: <<-SHELL
@@ -104,16 +105,17 @@ Vagrant.configure(2) do |config|
 
     # Add server-specific environment config
     fcrepo.vm.provision "file", source: 'files/fcrepo/env', destination: '/apps/fedora/config/env'
-    # Add custom transformation and configure solr indexing to use it
-    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-container-transformation.txt', destination: '/apps/fedora/config/custom-container-transformation.txt'
-    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-binary-transformation.txt', destination: '/apps/fedora/config/custom-binary-transformation.txt'
-    fcrepo.vm.provision "file", source: 'files/fcrepo/karaf-solr-custom-tranformation-config', destination: '/apps/fedora/config/karaf-solr-custom-tranformation-config'
-    fcrepo.vm.provision "file", source: 'files/fcrepo/custom-transformation-setup.sh', destination: '/apps/fedora/scripts/custom-transformation-setup.sh'
-    fcrepo.vm.provision "file", source: 'files/fcrepo/add-iiif-acl.sh', destination: '/apps/fedora/scripts/add-iiif-acl.sh'
-    fcrepo.vm.provision "file", source: 'files/fcrepo/initialize.sh', destination: '/apps/fedora/scripts/initialize.sh'
+
+    # Create SSL CA and client certificates
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./sslsetup.sh", privileged: false
+
+    # Start the applications
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora && ./control start", privileged: false
-    fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./initialize.sh", privileged: false
+
+    unless ENV['EMPTY_REPO']
+      # Bootstrap the top-level collections and ACLs
+      fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts/bootstrap && ./bootstrap-repo.sh", privileged: false
+    end
 
   end
 end

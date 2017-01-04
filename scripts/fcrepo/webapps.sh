@@ -1,5 +1,6 @@
 #!/bin/bash
 
-mkdir -p /apps/fedora/webapps
-cp /apps/dist/fcrepo-webapp-plus-webac-audit-4.5.1.war /apps/fedora/webapps/fcrepo.war
-cp /apps/dist/fcrepo-user-webapp-1.0.0.war /apps/fedora/webapps/user.war
+WEBAPP_DIR=/apps/fedora/webapps
+mkdir -p "$WEBAPP_DIR"
+cd /apps/dist
+cp umd-fcrepo-webapp-1.0.0-SNAPSHOT.war fcrepo-user-webapp-1.0.0.war "$WEBAPP_DIR"

@@ -22,5 +22,4 @@ cd /apps/dist
 get_artifact releases edu.umd.lib optional-authn-valve 1.0.0 jar
 get_artifact releases edu.umd.lib header-to-cert-valve 1.0.0 jar
 get_artifact releases edu.umd.lib fcrepo-user-webapp 1.0.0 war
-
-#TODO: get fcrepo.war
+get_artifact snapshots edu.umd.lib umd-fcrepo-webapp 1.0.0-SNAPSHOT war

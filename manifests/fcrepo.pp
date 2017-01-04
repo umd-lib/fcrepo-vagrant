@@ -28,6 +28,13 @@ package { 'tree':
 package { 'lsof':
   ensure => present,
 }
+package { 'jq':
+  ensure => present,
+  require => Package['epel-release'],
+}
+package { 'nc':
+  ensure => present,
+}
 
 host { 'fcrepolocal':
   ip => '192.168.40.10',
@@ -37,7 +44,7 @@ host { 'solrlocal':
 }
 
 firewall { '100 allow http and https access':
-  dport  => [80, 82, 443],
+  dport  => [80, 443],
   proto  => tcp,
   action => accept,
 }

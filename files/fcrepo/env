@@ -11,9 +11,10 @@ export SERVICE_GROUP=vagrant
 # Tomcat
 export KEY_ALIAS=fcrepolocal
 export PG_HOSTNAME=192.168.40.12
+export PG_PORT=5432
 export PG_USERNAME=fcrepo
 export PG_PASSWORD=fcrepo
 # Karaf
 export FCREPO_SERVER=fcrepolocal
 export SOLR_SERVER=solrlocal:8984
-export FUSEKI_SERVER=localhost:3030
+export FUSEKI_SERVER=fcrepolocal
