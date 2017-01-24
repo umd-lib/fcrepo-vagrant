@@ -49,14 +49,12 @@ Vagrant.configure(2) do |config|
 
     # CSR signing script
     solr.vm.provision "file", source: 'files/solr/signcsr', destination: '/apps/ca/signcsr'
-    # Jetty config
-    solr.vm.provision "file", source: 'files/solr/jetty.xml', destination: '/apps/solr/example/etc/jetty.xml'
+
+    # SSL config
+    solr.vm.provision "file", source: 'files/solr/solr.in.sh', destination: '/apps/solr/bin/solr.in.sh'
 
     # start Solr
-    solr.vm.provision "shell", privileged: false, inline: <<-SHELL
-      cd /apps/solr/example
-      java -jar start.jar >solr.log &
-    SHELL
+    solr.vm.provision "shell", privileged: false, inline: 'cd /apps/solr && bin/solr start'
   end
 
   # Fedora 4 Application
