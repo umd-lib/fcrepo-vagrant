@@ -5,7 +5,7 @@ SERVICE_USER_GROUP=vagrant:vagrant
 # https://wiki.duraspace.org/display/FEDORA4x/Solr+Indexing+Quick+Guide#SolrIndexingQuickGuide-Install,ConfigureandStartSolr
 
 # Solr
-SOLR_VERSION=4.10.3
+SOLR_VERSION=6.4.0
 SOLR_TGZ=/apps/dist/solr-${SOLR_VERSION}.tgz
 # look for a cached tarball
 if [ ! -e "$SOLR_TGZ" ]; then
@@ -28,7 +28,7 @@ if [ ! -e /apps/dist/solr-ssl.keystore.jks ]; then
         -dname "CN=solrlocal, OU=SSDR, O=UMD Libraries, L=College Park, ST=MD, C=US"
 fi
 
-cp /apps/dist/solr-ssl.keystore.jks "$SOLR_HOME/example"
+cp /apps/dist/solr-ssl.keystore.jks "$SOLR_HOME"
 
 ln -s "$SOLR_HOME" /apps/solr
 
