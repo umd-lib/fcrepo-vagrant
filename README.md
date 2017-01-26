@@ -60,8 +60,8 @@ You should start solr and fedora manually anytime you restart the VM.
 #### Start Solr
 ```
 vagrant ssh solr
-cd /apps/solr/example
-nohup java -jar start.jar >> solr.log &
+cd /apps/solr
+bin/solr start
 ```
 
 #### Start Fedora
