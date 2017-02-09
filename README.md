@@ -136,3 +136,8 @@ The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/s
 [fcrepo-env]: https://github.com/umd-lib/fcrepo-env/tree/0.1.0
 [fedora4-core]: https://bitbucket.org/umd-lib/fedora4-core
 [fcrepo-test]: https://bitbucket.org/umd-lib/fcrepo-test
+
+## License
+
+See the [LICENSE](LICENSE.md) file for license rights and limitations (Apache 2.0).
+
