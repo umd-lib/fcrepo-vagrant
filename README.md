@@ -51,6 +51,8 @@ Congratulations, you should now have a running fcrepo-vagrant!
 * Log in: <https://fcrepolocal/user>
 * Fedora REST interface: <https://fcrepolocal/fcrepo/rest>
 * Solr Admin interface: <https://solrlocal:8984/solr>
+* ActiveMQ Admin Interface: <http://fcrepolocal:8161/admin>
+  - Username/password: `admin`/`admin`
 
 ### Starting the application 
 
@@ -60,8 +62,8 @@ You should start solr and fedora manually anytime you restart the VM.
 #### Start Solr
 ```
 vagrant ssh solr
-cd /apps/solr
-bin/solr start
+cd /apps/solr/solr
+./control start
 ```
 
 #### Start Fedora
@@ -123,11 +125,11 @@ The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/s
 
 ## VM Info
 
-|Box Name |Hostname   |IP Address   |OS        |Open Ports|
-|---------|-----------|-------------|----------|----------|
-|fcrepo   |fcrepolocal|192.168.40.10|CentOS 6.6|80,443 |
-|solr     |solrlocal  |192.168.40.11|CentOS 6.6|8983,8984 |
-|postgres |pglocal    |192.168.40.12|CentOS 6.6|5432      |
+|Box Name |Hostname   |IP Address   |OS        |Open Ports |
+|---------|-----------|-------------|----------|-----------|
+|fcrepo   |fcrepolocal|192.168.40.10|CentOS 6.6|80,443,8161|
+|solr     |solrlocal  |192.168.40.11|CentOS 6.6|8983,8984  |
+|postgres |pglocal    |192.168.40.12|CentOS 6.6|5432       |
 
 
 [Vagrantfile](Vagrantfile)
