@@ -14,7 +14,12 @@ if [ ! -e "$SOLR_TGZ" ]; then
 fi
 tar xvzf "$SOLR_TGZ" --directory /apps
 
-SOLR_HOME=/apps/solr-${SOLR_VERSION}
+SOLR_INSTALL=/apps/solr-${SOLR_VERSION}
+mkdir -p /apps/solr
+cp -rp "$SOLR_INSTALL/server/solr" /apps/solr
+SOLR_HOME=/apps/solr/solr
+
+mkdir -p "$SOLR_HOME"
 
 # SSL
 
@@ -30,8 +35,5 @@ fi
 
 cp /apps/dist/solr-ssl.keystore.jks "$SOLR_HOME"
 
-ln -s "$SOLR_HOME" /apps/solr
-
 mkdir -p /apps/ca
-
-chown -R "$SERVICE_USER_GROUP" "$SOLR_HOME" /apps/ca
+chown -R "$SERVICE_USER_GROUP" /apps/solr /apps/ca
