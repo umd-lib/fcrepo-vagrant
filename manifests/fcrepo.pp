@@ -35,6 +35,13 @@ package { 'jq':
 package { 'nc':
   ensure => present,
 }
+package { 'git':
+  ensure => present,
+}
+package { 'stomppy':
+  ensure  => present,
+  require => Package['epel-release'],
+}
 
 host { 'fcrepolocal':
   ip => '192.168.40.10',

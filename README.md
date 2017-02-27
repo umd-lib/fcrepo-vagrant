@@ -17,7 +17,7 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
    branch:
    
     ```
-    git clone git@github.com:umd-lib/fcrepo-env.git -b develop
+    git clone git@bitbucket.org:umd-lib/fcrepo-env.git -b develop
     ```
     
 3. Clone [fedora4-core] into `/apps/git/fedora4-core`, and check out the `develop`
@@ -60,8 +60,8 @@ You should start solr and fedora manually anytime you restart the VM.
 #### Start Solr
 ```
 vagrant ssh solr
-cd /apps/solr/example
-nohup java -jar start.jar >> solr.log &
+cd /apps/solr
+bin/solr start
 ```
 
 #### Start Fedora
@@ -136,3 +136,8 @@ The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/s
 [fcrepo-env]: https://github.com/umd-lib/fcrepo-env/tree/0.1.0
 [fedora4-core]: https://bitbucket.org/umd-lib/fedora4-core
 [fcrepo-test]: https://bitbucket.org/umd-lib/fcrepo-test
+
+## License
+
+See the [LICENSE](LICENSE.md) file for license rights and limitations (Apache 2.0).
+

@@ -16,4 +16,4 @@ rm /apps/fedora/apache/src/apachectl
 cp /usr/sbin/apachectl /apps/fedora/apache/bin/apachectl.exec
 sudo chown root:root /apps/fedora/apache/bin/apachectl.exec
 cd /apps/fedora/apache/src
-make SERVICE_USER="$SERVICE_USER" SERVICE_GROUP="$SERVICE_GROUP" install
+make SERVICE_USER="$SERVICE_USER" SERVICE_GROUP="$SERVICE_GROUP" install clean

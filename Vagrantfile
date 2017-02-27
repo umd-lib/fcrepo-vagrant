@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+system("scripts/install-trigger-plugin.sh")
+
 Vagrant.configure(2) do |config|
 
   # PostgreSQL server
@@ -47,18 +49,20 @@ Vagrant.configure(2) do |config|
 
     # CSR signing script
     solr.vm.provision "file", source: 'files/solr/signcsr', destination: '/apps/ca/signcsr'
-    # Jetty config
-    solr.vm.provision "file", source: 'files/solr/jetty.xml', destination: '/apps/solr/example/etc/jetty.xml'
+
+    # control script
+    solr.vm.provision "file", source: 'files/solr/control', destination: '/apps/solr/solr/control'
 
     # start Solr
-    solr.vm.provision "shell", privileged: false, inline: <<-SHELL
-      cd /apps/solr/example
-      java -jar start.jar >solr.log &
-    SHELL
+    solr.vm.provision "shell", privileged: false, inline: 'cd /apps/solr/solr && ./control start'
   end
 
   # Fedora 4 Application
   config.vm.define "fcrepo" do |fcrepo|
+    config.trigger.before :up do
+      run  "scripts/fcrepo/restart-postgres.sh"
+    end
+
     fcrepo.vm.box = "puppetlabs/centos-6.6-64-puppet"
     fcrepo.vm.box_version = "1.0.1"
 
@@ -78,6 +82,12 @@ Vagrant.configure(2) do |config|
     # system provisioning
     fcrepo.vm.provision "puppet", manifest_file: 'fcrepo.pp', environment: 'local'
 
+    # configure Git
+    fcrepo.vm.provision 'shell', path: 'scripts/fcrepo/git.sh', args: [`git config user.name`, `git config user.email`],
+      privileged: false
+    # install runtime env
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/env.sh"
+
     # copy the default vagrant key so we can easily ssh between fcrepo and solr boxes
     # this works because this base box adds the insecure public key to the vagrant
     # user's authorized_hosts file
@@ -94,8 +104,6 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/karaf.sh"
     # install Fuseki
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/fuseki.sh"
-    # install runtime env
-    fcrepo.vm.provision "shell", path: "scripts/fcrepo/env.sh"
     # deploy webapps
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/webapps.sh", privileged: false
     # configure Apache runtime
