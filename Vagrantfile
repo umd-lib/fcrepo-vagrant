@@ -100,6 +100,8 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/jdk.sh"
     # install Tomcat
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/tomcat.sh"
+    # install ActiveMQ
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/activemq.sh"
     # install Karaf
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/karaf.sh"
     # install Fuseki
