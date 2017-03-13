@@ -2,6 +2,8 @@
 # vi: set ft=ruby :
 
 system("scripts/install-trigger-plugin.sh")
+git_username = `git config user.name`.chomp
+git_email = `git config user.email`.chomp
 
 Vagrant.configure(2) do |config|
 
@@ -39,13 +41,16 @@ Vagrant.configure(2) do |config|
     # system provisioning
     solr.vm.provision "puppet", manifest_file: 'solr.pp', environment: 'local'
 
+    # configure Git
+    solr.vm.provision 'shell', path: 'scripts/git.sh', args: [git_username, git_email], privileged: false
+
     # JDK
     solr.vm.provision "shell", path: 'scripts/solr/jdk.sh'
     # Solr
     solr.vm.provision "shell", path: 'scripts/solr/solr.sh'
 
     # fedora4 Solr core
-    solr.vm.provision "shell", path: 'scripts/solr/cores.sh'
+    solr.vm.provision "shell", path: 'scripts/solr/core.sh', args: %w(/apps/git/fedora4-core fedora4)
 
     # CSR signing script
     solr.vm.provision "file", source: 'files/solr/signcsr', destination: '/apps/ca/signcsr'
@@ -83,8 +88,7 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "puppet", manifest_file: 'fcrepo.pp', environment: 'local'
 
     # configure Git
-    fcrepo.vm.provision 'shell', path: 'scripts/fcrepo/git.sh', args: [`git config user.name`, `git config user.email`],
-      privileged: false
+    fcrepo.vm.provision 'shell', path: 'scripts/git.sh', args: [git_username, git_email], privileged: false
     # install runtime env
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/env.sh"
 
