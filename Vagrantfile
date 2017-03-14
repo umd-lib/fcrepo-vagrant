@@ -120,8 +120,8 @@ Vagrant.configure(2) do |config|
     # Add server-specific environment config
     fcrepo.vm.provision "file", source: 'files/fcrepo/env', destination: '/apps/fedora/config/env'
 
-    # Create SSL CA and client certificates
-    fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts && ./sslsetup.sh", privileged: false
+    # Create SSL CA and client certificates and cache CA to /apps/dist
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/sslsetup-cache.sh", privileged: false
 
     # Start the applications
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora && ./control start", privileged: false
