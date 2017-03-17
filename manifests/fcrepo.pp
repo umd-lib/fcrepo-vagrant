@@ -42,6 +42,14 @@ package { 'stomppy':
   ensure  => present,
   require => Package['epel-release'],
 }
+package { 'python-requests':
+  ensure  => present,
+  require => Package['epel-release'],
+}
+package { 'PyYAML':
+  ensure  => present,
+  require => Package['epel-release'],
+}
 
 host { 'fcrepolocal':
   ip => '192.168.40.10',
