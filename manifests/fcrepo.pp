@@ -55,8 +55,3 @@ firewall { '100 allow http and https access':
   proto  => tcp,
   action => accept,
 }
-firewall { '150 ActiveMQ admin console webapp':
-  dport  => 8161,
-  proto  => tcp,
-  action => accept,
-}
