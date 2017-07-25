@@ -20,4 +20,5 @@ export SOLR_SERVER=solrlocal:8984
 export FUSEKI_SERVER=fcrepolocal
 export KARAF_FCREPO_LOG_LEVEL=DEBUG
 export KARAF_LOG_RETENTION_DAYS=2
-
+# ActiveMQ
+export ACTIVEMQ_MAX_DISK=8gb
