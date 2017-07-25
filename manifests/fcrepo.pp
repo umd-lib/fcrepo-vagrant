@@ -63,3 +63,8 @@ firewall { '100 allow http and https access':
   proto  => tcp,
   action => accept,
 }
+firewall { '110 allow JMX remote access':
+  dport  => [10001, 10002],
+  proto  => tcp,
+  action => accept,
+}
