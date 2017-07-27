@@ -7,3 +7,10 @@ FILENAME=${2:-$CN}
 openssl req -new -nodes -newkey rsa:2048 -keyout "${FILENAME}.key" -subj "/CN=${CN}" \
     | vagrant ssh fcrepo -- /apps/fedora/scripts/signcsr \
     > "${FILENAME}.pem"
+
+# convert to a Java JKS
+openssl pkcs12 -export -clcerts -in "${FILENAME}.pem" -inkey "${FILENAME}.key" \
+    -out "${FILENAME}.p12" -passout pass:changeme
+keytool -importkeystore \
+    -srckeystore "${FILENAME}.p12" -srcstoretype pkcs12 -srcstorepass changeme \
+    -destkeystore "${FILENAME}.jks" -deststoretype jks -deststorepass changeme
