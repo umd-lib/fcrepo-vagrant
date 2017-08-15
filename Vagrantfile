@@ -18,7 +18,7 @@ Vagrant.configure(2) do |config|
 
     postgres.vm.provision "shell", inline: <<-SHELL
       puppet module install puppetlabs-firewall
-      puppet module install puppetlabs-postgresql
+      puppet module install puppetlabs-postgresql --version 4.9.0
     SHELL
 
     postgres.vm.provision "puppet", manifest_file: 'postgres.pp', environment: 'local'

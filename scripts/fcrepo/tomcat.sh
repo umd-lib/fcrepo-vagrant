@@ -23,5 +23,12 @@ mkdir -p "$CATALINA_BASE"/{logs,temp}
 mkdir -p "$CATALINA_BASE/lib"
 cp /apps/dist/optional-authn-valve-*.jar "$CATALINA_BASE/lib"
 cp /apps/dist/header-to-cert-valve-*.jar "$CATALINA_BASE/lib"
+# get the JMX Remote Lifecycle Listener
+JMX_JAR=/apps/dist/catalina-jmx-remote.jar
+if [ ! -e "$JMX_JAR" ]; then
+    curl -Lso "$JMX_JAR" \
+        "https://archive.apache.org/dist/tomcat/tomcat-7/v${TOMCAT_VERSION}/bin/extras/catalina-jmx-remote.jar"
+fi
+cp /apps/dist/catalina-jmx-remote.jar "$CATALINA_BASE/lib"
 
 chown -R "$SERVICE_USER_GROUP" "$CATALINA_BASE"

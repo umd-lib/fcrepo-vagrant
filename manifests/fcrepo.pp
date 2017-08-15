@@ -42,6 +42,14 @@ package { 'stomppy':
   ensure  => present,
   require => Package['epel-release'],
 }
+package { 'python-requests':
+  ensure  => present,
+  require => Package['epel-release'],
+}
+package { 'PyYAML':
+  ensure  => present,
+  require => Package['epel-release'],
+}
 
 host { 'fcrepolocal':
   ip => '192.168.40.10',
@@ -52,6 +60,11 @@ host { 'solrlocal':
 
 firewall { '100 allow http and https access':
   dport  => [80, 443],
+  proto  => tcp,
+  action => accept,
+}
+firewall { '110 allow JMX remote access':
+  dport  => [10001, 10002],
   proto  => tcp,
   action => accept,
 }
