@@ -54,6 +54,8 @@ Congratulations, you should now have a running fcrepo-vagrant!
 * ActiveMQ Admin Interface: <http://fcrepolocal:8161/admin>
   - Username/password: `admin`/`admin`
 
+**Note:** See the "Troubleshooting" section if unable to access the Fedora REST interface after logging in.
+
 ### Starting the application 
 
 The applications will only start automatically during the first `vagrant up` (provisioning). 
@@ -133,6 +135,46 @@ The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/s
 
 
 [Vagrantfile](Vagrantfile)
+
+## Troubleshooting
+
+### 403 "Forbidden" error when accessing the REST interface after logging in
+
+The Fedora REST interface is only available to users with CAS user ids in the Tomcat conf/server.xml file.
+
+To add a user id:
+
+1) Log in to the "fcrepo" Vagrant server:
+
+```
+cd /apps/git/fcrepo-vagrant
+vagrant ssh fcrepo
+```
+
+2) Edit the /apps/fedora/tomcat/conf/server.xml
+
+```
+vi /apps/fedora/tomcat/conf/server.xml
+```
+
+adding the user name "userSearch" value as "(uid=\<USERNAME>)" where \<USERNAME> is the CAS directory id of the user being added:
+
+```
+        <Realm className="org.apache.catalina.realm.JNDIRealm"
+              connectionURL="ldaps://directory.umd.edu"
+              commonRole="fedoraAdmin"
+              userBase="ou=people,DC=UMD,DC=EDU"
+              userSearch="(&amp;(uid={0})(|(uid=mohideen)(uid=peichman)(uid=westgard)))"
+              />
+```
+
+3) If Fedora is already running, restart:
+
+```
+cd /apps/fedora
+./control restart
+```
+
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html
 [fcrepo-env]: https://github.com/umd-lib/fcrepo-env/tree/0.1.0
