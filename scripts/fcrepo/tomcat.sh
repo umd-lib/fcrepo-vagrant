@@ -21,8 +21,6 @@ mkdir -p "$CATALINA_BASE"/{logs,temp}
 
 # local libs
 mkdir -p "$CATALINA_BASE/lib"
-cp /apps/dist/optional-authn-valve-*.jar "$CATALINA_BASE/lib"
-cp /apps/dist/header-to-cert-valve-*.jar "$CATALINA_BASE/lib"
 # get the JMX Remote Lifecycle Listener
 JMX_JAR=/apps/dist/catalina-jmx-remote.jar
 if [ ! -e "$JMX_JAR" ]; then

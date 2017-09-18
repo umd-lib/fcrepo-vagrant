@@ -1,25 +1,61 @@
 #!/bin/bash
 
 function get_artifact {
-    REPOSITORY=$1
-    GROUP=$2
-    ARTIFACT=$3
-    VERSION=$4
-    PACKAGING=$5
-    FILENAME=${6:-${ARTIFACT}-${VERSION}.${PACKAGING}}
+    # reset for parsing new arguments
+    unset -v REPOSITORY GROUP ARTIFACT VERSION PACKAGING FILENAME
+    OPTIND=1
 
+    while getopts "r:g:a:v:p:o:" opt; do
+        case $opt in
+            r)
+                REPOSITORY=$OPTARG
+                ;;
+            g)
+                GROUP=$OPTARG
+                ;;
+            a)
+                ARTIFACT=$OPTARG
+                ;;
+            v)
+                VERSION=$OPTARG
+                ;;
+            p)
+                PACKAGING=$OPTARG
+                ;;
+            o)
+                FILENAME=$OPTARG
+                ;;
+        esac
+    done
+
+    # use defaults for anything that wasn't explicitly set
+    GROUP=${GROUP:-edu.umd.lib}
+    if [ -z "$REPOSITORY" ]; then
+        if grep "SNAPSHOT" <<<"$VERSION"; then
+            REPOSITORY=snapshots
+        else
+            REPOSITORY=releases
+        fi
+    fi
+    FILENAME=${FILENAME:-${ARTIFACT}-${VERSION}.${PACKAGING}}
+
+    # now retrieve from Nexus
     NEXUS_BASE_URL=https://maven.lib.umd.edu/nexus/service/local/artifact/maven/content
     NEXUS_URL="$NEXUS_BASE_URL?r=$REPOSITORY&g=$GROUP&a=$ARTIFACT&v=$VERSION&p=$PACKAGING"
 
     if [ ! -e "$FILENAME" ]; then
-        curl "$NEXUS_URL" > "$FILENAME"
+        curl -Lso "$FILENAME" "$NEXUS_URL"
     fi
 }
 
+TOMCAT_LIB_DIR=/apps/fedora/tomcat/lib
+mkdir -p "$TOMCAT_LIB_DIR"
+cd "$TOMCAT_LIB_DIR"
+get_artifact -a optional-authn-valve -v 1.0.0 -p jar
+get_artifact -a header-to-cert-valve -v 1.0.1 -p jar
 
-cd /apps/dist
-
-get_artifact releases edu.umd.lib optional-authn-valve 1.0.0 jar
-get_artifact releases edu.umd.lib header-to-cert-valve 1.0.1 jar
-get_artifact releases edu.umd.lib fcrepo-user-webapp 1.1.0 war
-get_artifact releases edu.umd.lib umd-fcrepo-webapp 1.1.0 war
+WEBAPP_DIR=/apps/fedora/webapps
+mkdir -p "$WEBAPP_DIR"
+cd "$WEBAPP_DIR"
+get_artifact -a fcrepo-user-webapp -v 1.1.0 -p war
+get_artifact -a umd-fcrepo-webapp -v 1.1.0 -p war
