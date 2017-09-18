@@ -58,4 +58,4 @@ WEBAPP_DIR=/apps/fedora/webapps
 mkdir -p "$WEBAPP_DIR"
 cd "$WEBAPP_DIR"
 get_artifact -a fcrepo-user-webapp -v 1.1.0 -p war
-get_artifact -a umd-fcrepo-webapp -v 1.1.0 -p war
+get_artifact -a umd-fcrepo-webapp -v 1.2.0 -p war
