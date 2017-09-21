@@ -98,8 +98,6 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "file",
       source: "#{ENV['HOME']}/.vagrant.d/insecure_private_key",
       destination: "/home/vagrant/.ssh/id_rsa"
-    # get pre-built artifacts (from Nexus)
-    fcrepo.vm.provision "shell", path: "scripts/fcrepo/artifacts.sh"
     # install JDK
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/jdk.sh"
     # install Tomcat
@@ -110,8 +108,8 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/karaf.sh"
     # install Fuseki
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/fuseki.sh"
-    # deploy webapps
-    fcrepo.vm.provision "shell", path: "scripts/fcrepo/webapps.sh", privileged: false
+    # deploy artifacts (JARs and WARs) from Nexus
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/artifacts.sh", privileged: false
     # configure Apache runtime
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/apache.sh"
     # create self-signed certificate for Apache
