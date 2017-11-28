@@ -51,8 +51,8 @@ Congratulations, you should now have a running fcrepo-vagrant!
 * Log in: <https://fcrepolocal/user>
 * Fedora REST interface: <https://fcrepolocal/fcrepo/rest>
 * Solr Admin interface: <https://solrlocal:8984/solr>
-* ActiveMQ Admin Interface: <http://fcrepolocal:8161/admin>
-  - Username/password: `admin`/`admin`
+* ActiveMQ Admin Interface: <https://fcrepolocal/activemq/admin>
+  - Should allow access, via CAS, for anyone having an LDAP "ou" beginning with "LIBR-"
 
 **Note:** See the "Troubleshooting" section if unable to access the Fedora REST interface after logging in.
 
