@@ -19,7 +19,8 @@ Vagrant.configure(2) do |config|
     postgres.vm.provision "shell", inline: <<-SHELL
       # puppetlabs-stdlib is "pinned" to v4.22.0 for v4.9.0 of puppetlabs-postgresql
       puppet module install puppetlabs-stdlib --version 4.22.0
-      puppet module install puppetlabs-firewall
+      # puppetlabs-firewall is "pinned" to v1.10.0 for v4.9.0 of puppetlabs-postgresql
+      puppet module install puppetlabs-firewall --version 1.10.0
       puppet module install puppetlabs-postgresql --version 4.9.0
     SHELL
 
@@ -41,7 +42,8 @@ Vagrant.configure(2) do |config|
     solr.vm.provision "shell", inline: <<-SHELL
       # puppetlabs-stdlib is "pinned" to v4.22.0 for "solr.pp"
       puppet module install puppetlabs-stdlib --version 4.22.0
-      puppet module install puppetlabs-firewall
+      # puppetlabs-firewall is "pinned" to v1.10.0 for "solr.pp"
+      puppet module install puppetlabs-firewall --version 1.10.0
     SHELL
 
     # system provisioning
@@ -91,7 +93,8 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", inline: <<-SHELL
       # puppetlabs-stdlib is "pinned" to v4.22.0 for "fcrepo.pp"
       puppet module install puppetlabs-stdlib --version 4.22.0
-      puppet module install puppetlabs-firewall
+      # puppetlabs-firewall is "pinned" to v1.10.0 for "fcrepo.pp"
+      puppet module install puppetlabs-firewall --version 1.10.0
     SHELL
 
     # system provisioning
