@@ -68,3 +68,9 @@ firewall { '110 allow JMX remote access':
   proto  => tcp,
   action => accept,
 }
+
+file { '/data/binaries':
+  ensure => directory,
+  owner  => 'vagrant',
+  group  => 'vagrant',
+}
