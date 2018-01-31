@@ -17,7 +17,10 @@ Vagrant.configure(2) do |config|
     postgres.vm.network "private_network", ip: "192.168.40.12"
 
     postgres.vm.provision "shell", inline: <<-SHELL
-      puppet module install puppetlabs-firewall
+      # puppetlabs-stdlib is "pinned" to v4.22.0 for v4.9.0 of puppetlabs-postgresql
+      puppet module install puppetlabs-stdlib --version 4.22.0
+      # puppetlabs-firewall is "pinned" to v1.10.0 for v4.9.0 of puppetlabs-postgresql
+      puppet module install puppetlabs-firewall --version 1.10.0
       puppet module install puppetlabs-postgresql --version 4.9.0
     SHELL
 
@@ -36,7 +39,12 @@ Vagrant.configure(2) do |config|
     solr.vm.synced_folder "/apps/git/fedora4-core", "/apps/git/fedora4-core"
 
     # Puppet Modules
-    solr.vm.provision "shell", inline: 'puppet module install puppetlabs-firewall'
+    solr.vm.provision "shell", inline: <<-SHELL
+      # puppetlabs-stdlib is "pinned" to v4.22.0 for "solr.pp"
+      puppet module install puppetlabs-stdlib --version 4.22.0
+      # puppetlabs-firewall is "pinned" to v1.10.0 for "solr.pp"
+      puppet module install puppetlabs-firewall --version 1.10.0
+    SHELL
 
     # system provisioning
     solr.vm.provision "puppet", manifest_file: 'solr.pp', environment: 'local'
@@ -82,7 +90,12 @@ Vagrant.configure(2) do |config|
     end
 
     # Puppet Modules
-    fcrepo.vm.provision "shell", inline: 'puppet module install puppetlabs-firewall'
+    fcrepo.vm.provision "shell", inline: <<-SHELL
+      # puppetlabs-stdlib is "pinned" to v4.22.0 for "fcrepo.pp"
+      puppet module install puppetlabs-stdlib --version 4.22.0
+      # puppetlabs-firewall is "pinned" to v1.10.0 for "fcrepo.pp"
+      puppet module install puppetlabs-firewall --version 1.10.0
+    SHELL
 
     # system provisioning
     fcrepo.vm.provision "puppet", manifest_file: 'fcrepo.pp', environment: 'local'
