@@ -74,3 +74,9 @@ file { ['/data', '/data/binaries']:
   owner  => 'vagrant',
   group  => 'vagrant',
 }
+
+file { ['/apps/fedora', '/apps/fedora/logs']:
+  ensure => directory,
+  owner  => 'vagrant',
+  group  => 'vagrant',
+}
