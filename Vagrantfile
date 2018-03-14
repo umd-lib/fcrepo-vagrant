@@ -84,6 +84,9 @@ Vagrant.configure(2) do |config|
 
     fcrepo.vm.synced_folder "dist/fcrepo", "/apps/dist"
     fcrepo.vm.synced_folder "/apps/git/fcrepo-env", "/apps/git/fcrepo-env"
+    # share the local Maven repo for rapid testing of Karaf features
+    local_maven_repo = "#{ENV['HOME']}/.m2"
+    fcrepo.vm.synced_folder local_maven_repo, "/home/vagrant/.m2" if Dir.exist? local_maven_repo
 
     fcrepo.vm.provider "virtualbox" do |vb|
        vb.memory = "4096"
