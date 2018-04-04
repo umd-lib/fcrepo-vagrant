@@ -10,6 +10,7 @@ export SERVICE_USER=vagrant
 export SERVICE_GROUP=vagrant
 # Tomcat
 export KEY_ALIAS=fcrepolocal
+export FEDORA_ADMIN_LDAP_FILTER='(uid={0})'
 export PG_HOSTNAME=192.168.40.12
 export PG_PORT=5432
 export PG_USERNAME=fcrepo
