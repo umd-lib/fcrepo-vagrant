@@ -54,8 +54,6 @@ Congratulations, you should now have a running fcrepo-vagrant!
 * ActiveMQ Admin Interface: <https://fcrepolocal/activemq/admin>
   - Should allow access, via CAS, for anyone having an LDAP "ou" beginning with "LIBR-"
 
-**Note:** See the "Troubleshooting" section if unable to access the Fedora REST interface after logging in.
-
 ### Starting the application 
 
 The applications will only start automatically during the first `vagrant up` (provisioning). 
