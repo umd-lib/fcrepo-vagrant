@@ -40,8 +40,9 @@ function get_artifact {
     FILENAME=${FILENAME:-${ARTIFACT}-${VERSION}.${PACKAGING}}
 
     # now retrieve from Nexus
-    NEXUS_BASE_URL=https://maven.lib.umd.edu/nexus/service/local/artifact/maven/content
-    NEXUS_URL="$NEXUS_BASE_URL?r=$REPOSITORY&g=$GROUP&a=$ARTIFACT&v=$VERSION&p=$PACKAGING"
+    NEXUS_BASE_URL=https://maven.lib.umd.edu/nexus/repository
+    GROUP_PATH=$(tr '.' '/' <<<"$GROUP")
+    NEXUS_URL="$NEXUS_BASE_URL/$REPOSITORY/$GROUP_PATH/$ARTIFACT/$VERSION/$ARTIFACT-$VERSION.$PACKAGING"
 
     if [ ! -e "$FILENAME" ]; then
         curl -Lso "$FILENAME" "$NEXUS_URL"
