@@ -38,6 +38,7 @@ Vagrant.configure(2) do |config|
     solr.vm.synced_folder "dist/solr", "/apps/dist"
     solr.vm.synced_folder "/apps/git/fedora4-core", "/apps/git/fedora4-core"
 
+
     # Puppet Modules
     solr.vm.provision "shell", inline: <<-SHELL
       # puppetlabs-stdlib is "pinned" to v4.22.0 for "solr.pp"
@@ -67,7 +68,7 @@ Vagrant.configure(2) do |config|
     solr.vm.provision "file", source: 'files/solr/control', destination: '/apps/solr/solr/control'
 
     # start Solr
-    solr.vm.provision "shell", privileged: false, inline: 'cd /apps/solr/solr && ./control start'
+    solr.vm.provision "shell", privileged: false, inline: 'cd /apps/solr/solr && ./control start', run: 'always'
   end
 
   # Fedora 4 Application
@@ -81,7 +82,6 @@ Vagrant.configure(2) do |config|
 
     fcrepo.vm.hostname = 'fcrepolocal'
     fcrepo.vm.network "private_network", ip: "192.168.40.10"
-
     fcrepo.vm.synced_folder "dist/fcrepo", "/apps/dist"
     fcrepo.vm.synced_folder "/apps/git/fcrepo-env", "/apps/git/fcrepo-env"
     # share the local Maven repo for rapid testing of Karaf features
@@ -138,7 +138,7 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/sslsetup-cache.sh", privileged: false
 
     # Start the applications
-    fcrepo.vm.provision "shell", inline: "cd /apps/fedora && ./control start", privileged: false
+    fcrepo.vm.provision "shell", inline: "cd /apps/fedora && ./control start", privileged: false, run: 'always'
 
     unless ENV['EMPTY_REPO']
       # Bootstrap the top-level collections and ACLs
