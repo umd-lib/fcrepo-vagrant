@@ -122,10 +122,12 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/activemq.sh"
     # install Karaf
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/karaf.sh"
+    # install Maven
+    fcrepo.vm.provision "shell", path: "scripts/fcrepo/maven.sh"
     # install Fuseki
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/fuseki.sh"
     # deploy artifacts (JARs and WARs) from Nexus
-    fcrepo.vm.provision "shell", path: "scripts/fcrepo/artifacts.sh", privileged: false
+    fcrepo.vm.provision "shell", inline: "cd /apps/fedora && mvn dependency:copy", privileged: false
     # configure Apache runtime
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/apache.sh"
     # create self-signed certificate for Apache
