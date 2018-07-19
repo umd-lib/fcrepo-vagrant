@@ -4,7 +4,7 @@ SERVICE_USER_GROUP=vagrant:vagrant
 
 # Tomcat
 # can't install via yum since that is only version 6.0.24
-TOMCAT_VERSION=7.0.70
+TOMCAT_VERSION=7.0.88
 TOMCAT_TGZ=/apps/dist/apache-tomcat-${TOMCAT_VERSION}.tar.gz
 # look for a cached tarball
 if [ ! -e "$TOMCAT_TGZ" ]; then
