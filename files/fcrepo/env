@@ -14,7 +14,7 @@ export ACTIVEMQ_ADMIN_LDAP_ATTR=ou=LIBR-Libraries
 export KEY_ALIAS=fcrepolocal
 # set this to fedoraAdmin to give all directory authenticated users admin access
 # NOTE: this value should remain UNSET on PRODUCTION
-export LDAP_COMMON_ROLE=fedoraAdmin
+export LDAP_COMMON_ROLE=cn=Application_Roles:Libraries:FCREPO:FCREPO-Administrator,ou=grouper,ou=group,dc=umd,dc=edu
 export PG_HOSTNAME=192.168.40.12
 export PG_PORT=5432
 export PG_USERNAME=fcrepo
