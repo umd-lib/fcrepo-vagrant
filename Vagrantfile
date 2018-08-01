@@ -1,7 +1,18 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-system("scripts/install-trigger-plugin.sh")
+# check for Vagrant version 2.1.0+
+# if present, we can use the builtin triggers
+# if not, we have to install and use the triggers plugin
+require 'vagrant/errors'
+begin
+  Vagrant.require_version('>= 2.1.0')
+  USE_BUILTIN_TRIGGERS = true
+rescue Vagrant::Errors::VagrantVersionBad => e
+  USE_BUILTIN_TRIGGERS = false
+  system("scripts/install-trigger-plugin.sh")
+end
+
 git_username = `git config user.name`.chomp
 git_email = `git config user.email`.chomp
 
@@ -73,8 +84,14 @@ Vagrant.configure(2) do |config|
 
   # Fedora 4 Application
   config.vm.define "fcrepo" do |fcrepo|
-    config.trigger.before :up do
-      run  "scripts/fcrepo/restart-postgres.sh"
+    if USE_BUILTIN_TRIGGERS
+      fcrepo.trigger.before :up do |trigger|
+        trigger.run = { path: 'scripts/fcrepo/restart-postgres.sh' }
+      end
+    else
+      config.trigger.before :up do
+        run "scripts/fcrepo/restart-postgres.sh"
+      end
     end
 
     fcrepo.vm.box = "puppetlabs/centos-6.6-64-puppet"
