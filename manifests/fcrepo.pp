@@ -38,17 +38,38 @@ package { 'nc':
 package { 'git':
   ensure => present,
 }
-package { 'stomppy':
-  ensure  => present,
-  require => Package['epel-release'],
+package { 'nss':
+  ensure => latest,
 }
-package { 'python-requests':
-  ensure  => present,
-  require => Package['epel-release'],
+package { 'zlib-devel':
+  ensure => latest,
 }
-package { 'PyYAML':
-  ensure  => present,
-  require => Package['epel-release'],
+package { 'bzip2':
+  ensure => latest,
+}
+package { 'bzip2-devel':
+  ensure => latest,
+}
+package { 'readline-devel':
+  ensure => latest,
+}
+package { 'sqlite':
+  ensure => latest,
+}
+package { 'sqlite-devel':
+  ensure => latest,
+}
+package { 'openssl-devel':
+  ensure => latest,
+}
+package { 'xz':
+  ensure => latest,
+}
+package { 'xz-devel':
+  ensure => latest,
+}
+package { 'libffi-devel':
+  ensure => latest,
 }
 
 host { 'fcrepolocal':
