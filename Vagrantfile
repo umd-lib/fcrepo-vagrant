@@ -156,6 +156,9 @@ Vagrant.configure(2) do |config|
     # Create SSL CA and client certificates and cache CA to /apps/dist
     fcrepo.vm.provision "shell", path: "scripts/fcrepo/sslsetup-cache.sh", privileged: false
 
+    # pyenv and Python 3
+    fcrepo.vm.provision 'shell', path: 'scripts/fcrepo/python.sh', privileged: false
+
     # Start the applications
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora && ./control start", privileged: false, run: 'always'
 
