@@ -159,6 +159,9 @@ Vagrant.configure(2) do |config|
     # pyenv and Python 3
     fcrepo.vm.provision 'shell', path: 'scripts/fcrepo/python.sh', privileged: false
 
+    # vagrant user dotfiles
+    fcrepo.vm.provision 'file', source: 'files/fcrepo/.curlrc', destination: '/home/vagrant/.curlrc'
+
     # Start the applications
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora && ./control start", privileged: false, run: 'always'
 
