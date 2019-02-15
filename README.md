@@ -77,12 +77,7 @@ cd /apps/fedora
 
 By default, Tomcat is configured to accept any UMD directory authenticated user
 and assigns them `fedoraAdmin` privileges. This is controlled by the
-`FEDORA_ADMIN_LDAP_FILTER` environment variable in config/env. The Vagrant is
-originally provisioned with the filter `(uid={0})`. To limit to a particular
-username, change the value in the /apps/fedora/config/env file on the Vagrant to
-`(&(uid={0})(uid=username))`, where `username` is the directory ID you want to
-grant access to. To limit to a list of usernames, use
-`(&(uid={0})(|(uid=username1)(uid=username2)))` instead.
+`LDAP_COMMON_ROLE` environment variable in [config/env](files/fcrepo/env). The full Grouper role DN that is used is `cn=Application_Roles:Libraries:FCREPO:FCREPO-Administrator,ou=grouper,ou=group,dc=umd,dc=edu`.
 
 ### Bootstrap Repository Data
 
