@@ -1,6 +1,11 @@
-# # vim:ft=sh
+# vim:ft=sh
+source /apps/fedora/config/versions
+
 export IP_ADDRESS=192.168.40.10
 export SERVER_NAME=fcrepolocal
+export SERVICE_USER=vagrant
+export SERVICE_GROUP=vagrant
+
 # Apache
 export SSL_CERT_NAME=fcrepolocal
 export SSL_KEY_NAME=fcrepolocal
