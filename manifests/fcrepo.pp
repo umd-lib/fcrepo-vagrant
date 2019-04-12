@@ -2,8 +2,22 @@ Package {
   allow_virtual => false,
 }
 
+package { 'ca-certificates':
+  ensure => latest,
+}
+package { 'nss':
+  ensure => latest,
+}
+package { 'curl':
+  ensure => latest,
+}
 package { 'epel-release':
-  ensure => present,
+  ensure  => present,
+  require => [
+    Package['ca-certificates'],
+    Package['nss'],
+    Package['curl'],
+  ],
 }
 package { 'httpd':
   ensure => present,
@@ -37,9 +51,6 @@ package { 'nc':
 }
 package { 'git':
   ensure => present,
-}
-package { 'nss':
-  ensure => latest,
 }
 package { 'zlib-devel':
   ensure => latest,
