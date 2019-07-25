@@ -1,0 +1,3 @@
+# hostname:port:database:username:password
+*:*:*:postgres:postgres
+*:*:fcrepo_audit:camel:camel
