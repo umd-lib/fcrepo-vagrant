@@ -17,5 +17,7 @@ CREATE INDEX history_timestamp_index ON history (timestamp);
 -- users and permissions
 
 CREATE USER camel WITH PASSWORD 'camel';
+CREATE USER archelon WITH PASSWORD 'archelon';
 
 GRANT SELECT, INSERT ON history TO camel;
+GRANT SELECT ON history TO archelon;
