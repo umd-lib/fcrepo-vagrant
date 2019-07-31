@@ -40,6 +40,14 @@ postgresql::server::pg_hba_rule { 'camel@192.168.40.0/24:fcrepo_audit':
   address     => '192.168.40.0/24',
   auth_method => 'md5',
 }
+postgresql::server::pg_hba_rule { 'archelon@192.168.40.0/24:fcrepo_audit':
+  description => "Open up fcrepo_audit database for access over the network by archelon",
+  type        => 'host',
+  database    => 'fcrepo_audit',
+  user        => 'archelon',
+  address     => '192.168.40.0/24',
+  auth_method => 'md5',
+}
 
 firewall { '100 allow access to PostgreSQL':
   dport => [5432],
