@@ -100,6 +100,11 @@ firewall { '110 allow JMX remote access':
   proto  => tcp,
   action => accept,
 }
+firewall { '120 allow STOMP remote access':
+  dport  => [61613],
+  proto  => tcp,
+  action => accept,
+}
 
 file { ['/data', '/data/binaries']:
   ensure => directory,
