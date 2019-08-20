@@ -36,6 +36,12 @@ Vagrant.configure(2) do |config|
     SHELL
 
     postgres.vm.provision "puppet", manifest_file: 'postgres.pp', environment: 'local'
+
+    postgres.vm.provision 'file', source: 'files/postgres/pgpass', destination: '/home/vagrant/.pgpass'
+    postgres.vm.provision 'file', source: 'files/postgres/fcrepo_audit.sql', destination: '/home/vagrant/fcrepo_audit.sql'
+
+    # additional databases
+    postgres.vm.provision "shell", path: 'scripts/postgres/databases.sh', privileged: false
   end
 
   # Solr server

@@ -24,6 +24,9 @@ export PG_HOSTNAME=192.168.40.12
 export PG_PORT=5432
 export PG_USERNAME=fcrepo
 export PG_PASSWORD=fcrepo
+export PG_AUDIT_DATABASE=fcrepo_audit
+export PG_CAMEL_USERNAME=camel
+export PG_CAMEL_PASSWORD=camel
 # Karaf
 export FCREPO_SERVER=fcrepolocal
 export SOLR_SERVER=solrlocal:8984
