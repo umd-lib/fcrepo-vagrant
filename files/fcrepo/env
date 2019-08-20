@@ -11,8 +11,8 @@ export SSL_CERT_NAME=fcrepolocal
 export SSL_KEY_NAME=fcrepolocal
 export TOMCAT_PROXY=https://localhost:9601
 export FUSEKI_PROXY=http://localhost:3030
-export FUSEKI_ADMIN_LDAP_ATTR=ou=LIBR-Libraries
-export ACTIVEMQ_ADMIN_LDAP_ATTR=ou=LIBR-Libraries
+export FUSEKI_ADMIN_GROUP=cn=Application_Roles:Libraries:FCREPO:FUSEKI-Administrator,ou=grouper,ou=group,dc=umd,dc=edu
+export ACTIVEMQ_ADMIN_GROUP=cn=Application_Roles:Libraries:FCREPO:ACTIVEMQ-Administrator,ou=grouper,ou=group,dc=umd,dc=edu
 # Tomcat
 export KEY_ALIAS=fcrepolocal
 # set this to fedoraAdmin to give all directory authenticated users admin access
