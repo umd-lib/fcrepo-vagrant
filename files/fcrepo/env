@@ -11,8 +11,6 @@ export SSL_CERT_NAME=fcrepolocal
 export SSL_KEY_NAME=fcrepolocal
 export TOMCAT_PROXY=https://localhost:9601
 export FUSEKI_PROXY=http://localhost:3030
-export SERVICE_USER=vagrant
-export SERVICE_GROUP=vagrant
 export FUSEKI_ADMIN_LDAP_ATTR=ou=LIBR-Libraries
 export ACTIVEMQ_ADMIN_LDAP_ATTR=ou=LIBR-Libraries
 # Tomcat
@@ -29,7 +27,7 @@ export PG_CAMEL_USERNAME=camel
 export PG_CAMEL_PASSWORD=camel
 # Karaf
 export FCREPO_SERVER=fcrepolocal
-export SOLR_SERVER=solrlocal:8984
+export SOLR_URL=http://solrlocal:8983/solr/fedora4
 export FUSEKI_SERVER=fcrepolocal
 export KARAF_FCREPO_LOG_LEVEL=DEBUG
 export KARAF_LOG_RETENTION_DAYS=2
