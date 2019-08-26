@@ -50,28 +50,8 @@ Congratulations, you should now have a running fcrepo-vagrant!
 * Application Landing Page: <https://fcrepolocal/>
 * Log in: <https://fcrepolocal/user>
 * Fedora REST interface: <https://fcrepolocal/fcrepo/rest>
-* Solr Admin interface: <https://solrlocal:8984/solr>
+* Solr Admin interface: <http://solrlocal:8983/solr>
 * ActiveMQ Admin Interface: <https://fcrepolocal/activemq/admin>
-  - Should allow access, via CAS, for anyone having an LDAP "ou" beginning with "LIBR-"
-
-### Starting the application 
-
-The applications will only start automatically during the first `vagrant up` (provisioning). 
-You should start solr and fedora manually anytime you restart the VM. 
-
-#### Start Solr
-```
-vagrant ssh solr
-cd /apps/solr/solr
-./control start
-```
-
-#### Start Fedora
-```
-vagrant ssh fcrepo
-cd /apps/fedora
-./control start
-```
 
 ### Authentication
 
@@ -109,7 +89,7 @@ bin/clientcert
 bin/clientcert batchloader
 # creates bactchloader.{key,pem} with subject CN=batchloader
 
-bin/clientcert batchloader bactchloader-client
+bin/clientcert batchloader batchloader-client
 # creates batchloader-client.{key,pem} with subject CN=batchloader
 ```
 
@@ -127,13 +107,11 @@ security warning. The SSL certificate is cached in [dist/fcrepo](dist/fcrepo), s
 if you destory and recreate the Vagrant, you will not have to add a new security exception. You can at any time delete the cached certificate to force the
 regeneration the next time you provision the Vagrant.
 
-The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/solr](dist/solr).
-
 ## VM Info
 
 |Box Name |Hostname   |IP Address   |OS        |Open Ports |
 |---------|-----------|-------------|----------|-----------|
-|fcrepo   |fcrepolocal|192.168.40.10|CentOS 6.6|80,443,8161|
+|fcrepo   |fcrepolocal|192.168.40.10|CentOS 6.6|80,443,8161,61613|
 |solr     |solrlocal  |192.168.40.11|CentOS 6.6|8983,8984  |
 |postgres |pglocal    |192.168.40.12|CentOS 6.6|5432       |
 
@@ -141,7 +119,7 @@ The Solr web server also uses a self-signed HTTPS certificate, cached in [dist/s
 [Vagrantfile](Vagrantfile)
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html
-[fcrepo-env]: https://github.com/umd-lib/fcrepo-env/tree/0.1.0
+[fcrepo-env]: https://bitbucket.org/umd-lib/fcrepo-env
 [fedora4-core]: https://bitbucket.org/umd-lib/fedora4-core
 [fcrepo-test]: https://bitbucket.org/umd-lib/fcrepo-test
 
