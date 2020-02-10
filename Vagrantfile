@@ -1,48 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# check for Vagrant version 2.1.0+
-# if present, we can use the builtin triggers
-# if not, we have to install and use the triggers plugin
-require 'vagrant/errors'
-begin
-  Vagrant.require_version('>= 2.1.0')
-  USE_BUILTIN_TRIGGERS = true
-rescue Vagrant::Errors::VagrantVersionBad => e
-  USE_BUILTIN_TRIGGERS = false
-  system("scripts/install-trigger-plugin.sh")
-end
-
 git_username = `git config user.name`.chomp
 git_email = `git config user.email`.chomp
 
 Vagrant.configure(2) do |config|
-
-  # PostgreSQL server
-  config.vm.define "postgres" do |postgres|
-    postgres.vm.box = "puppetlabs/centos-6.6-64-puppet"
-    postgres.vm.box_version = "1.0.1"
-
-    postgres.vm.hostname = 'pglocal'
-
-    postgres.vm.network "private_network", ip: "192.168.40.12"
-
-    postgres.vm.provision "shell", inline: <<-SHELL
-      # puppetlabs-stdlib is "pinned" to v4.22.0 for v4.9.0 of puppetlabs-postgresql
-      puppet module install puppetlabs-stdlib --version 4.22.0
-      # puppetlabs-firewall is "pinned" to v1.10.0 for v4.9.0 of puppetlabs-postgresql
-      puppet module install puppetlabs-firewall --version 1.10.0
-      puppet module install puppetlabs-postgresql --version 4.9.0
-    SHELL
-
-    postgres.vm.provision "puppet", manifest_file: 'postgres.pp', environment: 'local'
-
-    postgres.vm.provision 'file', source: 'files/postgres/pgpass', destination: '/home/vagrant/.pgpass'
-    postgres.vm.provision 'file', source: 'files/postgres/fcrepo_audit.sql', destination: '/home/vagrant/fcrepo_audit.sql'
-
-    # additional databases
-    postgres.vm.provision "shell", path: 'scripts/postgres/databases.sh', privileged: false
-  end
 
   # Solr server
   config.vm.define "solr" do |solr|
@@ -90,16 +52,6 @@ Vagrant.configure(2) do |config|
 
   # Fedora 4 Application
   config.vm.define "fcrepo" do |fcrepo|
-    if USE_BUILTIN_TRIGGERS
-      fcrepo.trigger.before :up do |trigger|
-        trigger.run = { path: 'scripts/fcrepo/restart-postgres.sh' }
-      end
-    else
-      config.trigger.before :up do
-        run "scripts/fcrepo/restart-postgres.sh"
-      end
-    end
-
     fcrepo.vm.box = "puppetlabs/centos-6.6-64-puppet"
     fcrepo.vm.box_version = "1.0.1"
 

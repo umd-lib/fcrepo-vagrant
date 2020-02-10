@@ -1,8 +1,8 @@
 # fcrepo-vagrant
 
 This is a multi-machine Vagrant that simulates the UMD Libraries' production
-Fedora 4 setup. It consists of a PostgreSQL database server, a Solr server, and
-the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
+Fedora 4 setup. It consists of a Solr server and the Fedora 4 application server
+running ActiveMQ, Tomcat, Karaf, and Fuseki.
 
 ## Setup
 
@@ -37,8 +37,18 @@ the Fedora 4 application server running Tomcat, Karaf, and Fuseki.
     sudo echo "192.168.40.10  fcrepolocal" >> /etc/hosts
     sudo echo "192.168.40.11  solrlocal" >> /etc/hosts
     ```
+    
+6. Start up an instance of Postgres from [umd-fcrepo-docker](https://github.com/umd-lib/umd-fcrepo-docker):
 
-6. Start the Vagrant:
+    ```
+    git clone git@github.com:umd-lib/umd-fcrepo-docker.git
+    docker volume create fcrepo-postgres-data
+    cd umd-fcrepo-docker
+    docker build -t umd-fcrepo-postgres .
+    docker run -p 5432:5432 -v fcrepo-postgres-data:/var/lib/postgresql/data umd-fcrepo-postgres
+    ```
+
+7. Start the Vagrant:
 
     ```
     cd /apps/git/fcrepo-vagrant
@@ -113,8 +123,6 @@ regeneration the next time you provision the Vagrant.
 |---------|-----------|-------------|----------|-----------|
 |fcrepo   |fcrepolocal|192.168.40.10|CentOS 6.6|80,443,8161,61613|
 |solr     |solrlocal  |192.168.40.11|CentOS 6.6|8983,8984  |
-|postgres |pglocal    |192.168.40.12|CentOS 6.6|5432       |
-
 
 [Vagrantfile](Vagrantfile)
 
