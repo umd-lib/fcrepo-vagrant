@@ -13,12 +13,17 @@ running ActiveMQ, Tomcat, Karaf, and Fuseki.
     git clone git@github.com:umd-lib/fcrepo-vagrant
     ```
 
-2. Clone [fcrepo-env] into `/apps/git/fcrepo-env`, and check out the `develop`
-   branch:
+2. Clone [fcrepo-env] into `/apps/git/fcrepo-env`:
    
     ```
-    git clone git@bitbucket.org:umd-lib/fcrepo-env.git -b develop
+    git clone git@bitbucket.org:umd-lib/fcrepo-env.git
     ```
+    
+    This will check out the latest `develop` branch. **Be aware** that the `develop` branch may contain dependencies on `SNAPSHOT` versions of Java code that may or may not be in the UMD Nexus. You can either:
+    
+    1. Check out a release tag of fcrepo-env, e.g. `git checkout 4.8.1`
+    2. Build those dependencies locally with `mvn clean install`, since the fcrepo box is 
+       configured to share your local `~/.m2` directory.
     
 3. Clone [fedora4-core] into `/apps/git/fedora4-core`, and check out the `develop`
    branch:
@@ -43,10 +48,14 @@ running ActiveMQ, Tomcat, Karaf, and Fuseki.
     ```
     git clone git@github.com:umd-lib/umd-fcrepo-docker.git
     docker volume create fcrepo-postgres-data
-    cd umd-fcrepo-docker
+    cd umd-fcrepo-docker/postgres
     docker build -t umd-fcrepo-postgres .
     docker run -p 5432:5432 -v fcrepo-postgres-data:/var/lib/postgresql/data umd-fcrepo-postgres
     ```
+    
+    To run the Postgres Docker container in the background, add `-d` to the `docker run`
+    command. To automatically delete the container (but not the data) when it is stopped,
+    add `--rm` to the `docker run` command.
 
 7. Start the Vagrant:
 
