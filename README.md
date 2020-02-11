@@ -24,6 +24,10 @@ running ActiveMQ, Tomcat, Karaf, and Fuseki.
     1. Check out a release tag of fcrepo-env, e.g. `git checkout 4.8.1`
     2. Build those dependencies locally with `mvn clean install`, since the fcrepo box is 
        configured to share your local `~/.m2` directory.
+       
+       To see the dependencies that need to be built, run `mvn dependency:copy` and build
+       the missing dependency. The command only finds one missing dependency at a time, and
+       so may need to be run multiple times to determine all the dependencies.
     
 3. Clone [fedora4-core] into `/apps/git/fedora4-core`, and check out the `develop`
    branch:
