@@ -6,14 +6,30 @@ running ActiveMQ, Tomcat, Karaf, and Fuseki.
 
 ## Setup
 
-**Note:** The fcrepo-vagrant and related repositories must be checked out into
-the "~/git/" directory (i.e., a "git" subdirectory in the user's home
-directory). 
+**Note:** The fcrepo-vagrant Vagrantfile expects the following repositories to
+be checked out in the same directory as fcrepo-vagrant:
+
+* fcrepo-env
+* fedora4-core
+
+The "umd-fcrepo-docker" respository can be checked out anywhere, but is
+typically also a sibling directory of fcrepo-vagrant.
+
+The fcrepo-vagrant repository is typically (but not required) to be checked out
+in the "~/git/" directory (i.e., a "git" subdirectory in the user's home
+directory). Therefore the typical directory structure is:
+
+```
+~/git/
+   |-- fcrepo-vagrant/
+   |-- fcrepo-env/
+   |-- fedora4-core/
+   |-- umd-fcrepo-docker/
+```
 
 1. Clone this repository:
 
     ```
-    cd ~/git
     git clone git@github.com:umd-lib/fcrepo-vagrant
     ```
 
@@ -68,7 +84,7 @@ directory).
 6. Start the Vagrant:
 
     ```
-    cd ~/git/fcrepo-vagrant
+    cd ../../fcrepo-vagrant
     vagrant up
     ```
 

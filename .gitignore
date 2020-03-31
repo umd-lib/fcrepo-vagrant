@@ -5,6 +5,3 @@
 # Ignore bootstrap data files
 bootstrap-data.tar.gz
 bootstrap-data/
-
-# Ignore umd-fcrepo-docker
-umd-fcrepo-docker/
