@@ -36,21 +36,17 @@ running ActiveMQ, Tomcat, Karaf, and Fuseki.
    git clone git@bitbucket.org:umd-lib/fedora4-core.git -b develop
    ```
     
-4. Download an [Oracle JDK 8][jdk] tarball (current version is 8u65) and place a
-   copy of it in both the [dist/fcrepo](dist/fcrepo) and [dist/solr](dist/solr)
-   directories.
-
-5. Add `fcrepolocal` and `solrlocal` to your workstation's `/etc/hosts` file:
+4. Add `fcrepolocal` and `solrlocal` to your workstation's `/etc/hosts` file:
 
     ```
     sudo echo "192.168.40.10  fcrepolocal" >> /etc/hosts
     sudo echo "192.168.40.11  solrlocal" >> /etc/hosts
     ```
     
-6. Start up an instance of Postgres from [umd-fcrepo-docker](https://github.com/umd-lib/umd-fcrepo-docker):
+5. Start up an instance of Postgres from [umd-fcrepo-docker](https://github.com/umd-lib/umd-fcrepo-docker):
 
     ```
-    git clone git@github.com:umd-lib/umd-fcrepo-docker.git
+    git clone https://github.com/umd-lib/umd-fcrepo-docker.git
     docker volume create fcrepo-postgres-data
     cd umd-fcrepo-docker/postgres
     docker build -t umd-fcrepo-postgres .
@@ -59,9 +55,13 @@ running ActiveMQ, Tomcat, Karaf, and Fuseki.
     
     To run the Postgres Docker container in the background, add `-d` to the `docker run`
     command. To automatically delete the container (but not the data) when it is stopped,
-    add `--rm` to the `docker run` command.
+    add `--rm` to the `docker run` command, i.e.:
+    
+    ```
+    docker run -d --rm -p 5432:5432 -v fcrepo-postgres-data:/var/lib/postgresql/data umd-fcrepo-postgres
+    ```
 
-7. Start the Vagrant:
+6. Start the Vagrant:
 
     ```
     cd /apps/git/fcrepo-vagrant
