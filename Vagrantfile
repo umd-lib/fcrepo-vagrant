@@ -15,7 +15,7 @@ Vagrant.configure(2) do |config|
     solr.vm.network "private_network", ip: "192.168.40.11"
 
     solr.vm.synced_folder "dist/solr", "/apps/dist"
-    solr.vm.synced_folder "/apps/git/fedora4-core", "/apps/git/fedora4-core"
+    solr.vm.synced_folder "../fedora4-core", "/apps/git/fedora4-core"
 
 
     # Puppet Modules
@@ -58,7 +58,7 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.hostname = 'fcrepolocal'
     fcrepo.vm.network "private_network", ip: "192.168.40.10"
     fcrepo.vm.synced_folder "dist/fcrepo", "/apps/dist"
-    fcrepo.vm.synced_folder "/apps/git/fcrepo-env", "/apps/git/fcrepo-env"
+    fcrepo.vm.synced_folder "../fcrepo-env", "/apps/git/fcrepo-env"
     # share the local Maven repo for rapid testing of Karaf features
     local_maven_repo = "#{ENV['HOME']}/.m2"
     fcrepo.vm.synced_folder local_maven_repo, "/home/vagrant/.m2" if Dir.exist? local_maven_repo

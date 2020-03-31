@@ -6,14 +6,18 @@ running ActiveMQ, Tomcat, Karaf, and Fuseki.
 
 ## Setup
 
+**Note:** The fcrepo-vagrant and related repositories must be checked out into
+the "~/git/" directory (i.e., a "git" subdirectory in the user's home
+directory). 
+
 1. Clone this repository:
 
     ```
-    cd /apps/git
+    cd ~/git
     git clone git@github.com:umd-lib/fcrepo-vagrant
     ```
 
-2. Clone [fcrepo-env] into `/apps/git/fcrepo-env`:
+2. Clone [fcrepo-env] into `~/git/fcrepo-env`:
    
     ```
     git clone git@bitbucket.org:umd-lib/fcrepo-env.git
@@ -29,7 +33,7 @@ running ActiveMQ, Tomcat, Karaf, and Fuseki.
        the missing dependency. The command only finds one missing dependency at a time, and
        so may need to be run multiple times to determine all the dependencies.
     
-3. Clone [fedora4-core] into `/apps/git/fedora4-core`, and check out the `develop`
+3. Clone [fedora4-core] into `~/git/fedora4-core`, and check out the `develop`
    branch:
    
    ```
@@ -64,7 +68,7 @@ running ActiveMQ, Tomcat, Karaf, and Fuseki.
 6. Start the Vagrant:
 
     ```
-    cd /apps/git/fcrepo-vagrant
+    cd ~/git/fcrepo-vagrant
     vagrant up
     ```
 
