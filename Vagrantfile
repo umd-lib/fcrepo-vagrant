@@ -17,6 +17,8 @@ Vagrant.configure(2) do |config|
     solr.vm.synced_folder "dist/solr", "/apps/dist"
     solr.vm.synced_folder "../fedora4-core", "/apps/git/fedora4-core"
 
+    # Update SSL certificate authorities
+    solr.vm.provision 'shell', inline: 'yum install -y ca-certificates'
 
     # Puppet Modules
     solr.vm.provision "shell", inline: <<-SHELL
@@ -66,6 +68,9 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provider "virtualbox" do |vb|
        vb.memory = "4096"
     end
+    
+    # Update SSL certificate authorities
+    fcrepo.vm.provision 'shell', inline: 'yum install -y ca-certificates'
 
     # Puppet Modules
     fcrepo.vm.provision "shell", inline: <<-SHELL
