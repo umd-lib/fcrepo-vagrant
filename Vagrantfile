@@ -68,7 +68,7 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provider "virtualbox" do |vb|
        vb.memory = "4096"
     end
-    
+
     # Update SSL certificate authorities
     fcrepo.vm.provision 'shell', inline: 'yum install -y ca-certificates'
 
@@ -129,8 +129,10 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision "shell", inline: "cd /apps/fedora && ./control start", privileged: false, run: 'always'
 
     unless ENV['EMPTY_REPO']
+      # Bootstrap the system users
+      fcrepo.vm.provision "shell", inline: "/apps/fedora/scripts/bootstrap/create-users.sh", privileged: false
       # Bootstrap the top-level collections and ACLs
-      fcrepo.vm.provision "shell", inline: "cd /apps/fedora/scripts/bootstrap && ./bootstrap-repo.sh", privileged: false
+      fcrepo.vm.provision "shell", inline: "/apps/fedora/scripts/bootstrap/create-containers.sh", privileged: false
     end
 
   end
