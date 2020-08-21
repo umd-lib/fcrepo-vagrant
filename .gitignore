@@ -1,3 +1,7 @@
 /.vagrant/
 /dist/*/*
 !/dist/*/README.md
+
+# Ignore bootstrap data files
+bootstrap-data.tar.gz
+bootstrap-data/
