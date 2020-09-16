@@ -86,9 +86,6 @@ package { 'libffi-devel':
 host { 'fcrepolocal':
   ip => '192.168.40.10',
 }
-host { 'solrlocal':
-  ip => '192.168.40.11',
-}
 
 firewall { '100 allow http and https access':
   dport  => [80, 443],
