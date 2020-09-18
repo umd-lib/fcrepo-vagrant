@@ -1,16 +1,12 @@
 # fcrepo-vagrant
 
-This is a multi-machine Vagrant that simulates the UMD Libraries' production
-Fedora 4 setup. It consists of a Solr server and the Fedora 4 application server
-running ActiveMQ, Tomcat, Karaf, and Fuseki.
+This is a Vagrant box that simulates the UMD Libraries' production Fedora application
+server (fcrepo). It runs ActiveMQ, Tomcat, Karaf, and Fuseki.
 
 ## Setup
 
-**Note:** The fcrepo-vagrant Vagrantfile expects the following repositories to
-be checked out in the same directory as fcrepo-vagrant:
-
-* fcrepo-env
-* fedora4-core
+**Note:** The fcrepo-vagrant Vagrantfile expects the fcrepo-env repository to
+be checked out in the same directory as fcrepo-vagrant.
 
 The "umd-fcrepo-docker" respository can be checked out anywhere, but is
 typically also a sibling directory of fcrepo-vagrant.
@@ -23,21 +19,19 @@ directory). Therefore the typical directory structure is:
 ~/git/
    |-- fcrepo-vagrant/
    |-- fcrepo-env/
-   |-- fedora4-core/
    |-- umd-fcrepo-docker/
 ```
 
-1. Clone this repository:
+1. Clone the necessary repositories:
 
     ```
+    cd ~/git
     git clone git@github.com:umd-lib/fcrepo-vagrant
+    git clone git@bitbucket.org:umd-lib/fcrepo-env.git
+    git clone https://github.com/umd-lib/umd-fcrepo-docker.git
     ```
 
-2. Clone [fcrepo-env] into `~/git/fcrepo-env`:
-   
-    ```
-    git clone git@bitbucket.org:umd-lib/fcrepo-env.git
-    ```
+    **Note on fcrepo-env:**
     
     This will check out the latest `develop` branch. **Be aware** that the `develop` branch may contain dependencies on `SNAPSHOT` versions of Java code that may or may not be in the UMD Nexus. You can either:
     
@@ -49,28 +43,19 @@ directory). Therefore the typical directory structure is:
        the missing dependency. The command only finds one missing dependency at a time, and
        so may need to be run multiple times to determine all the dependencies.
     
-3. Clone [fedora4-core] into `~/git/fedora4-core`, and check out the `develop`
-   branch:
-   
-   ```
-   git clone git@bitbucket.org:umd-lib/fedora4-core.git -b develop
-   ```
-    
-4. Add `fcrepolocal` and `solrlocal` to your workstation's `/etc/hosts` file:
+2. Add `fcrepolocal` to your workstation's `/etc/hosts` file:
 
     ```
     sudo echo "192.168.40.10  fcrepolocal" >> /etc/hosts
-    sudo echo "192.168.40.11  solrlocal" >> /etc/hosts
     ```
     
-5. Start up an instance of Postgres from [umd-fcrepo-docker](https://github.com/umd-lib/umd-fcrepo-docker):
+3. Start up an instance of Postgres from the Docker image:
 
     ```
-    git clone https://github.com/umd-lib/umd-fcrepo-docker.git
     docker volume create fcrepo-postgres-data
-    cd umd-fcrepo-docker/postgres
-    docker build -t umd-fcrepo-postgres .
-    docker run -p 5432:5432 -v fcrepo-postgres-data:/var/lib/postgresql/data umd-fcrepo-postgres
+    cd ~/git/umd-fcrepo-docker/postgres
+    docker build -t docker.lib.umd.edu/fcrepo-postgres .
+    docker run -p 5432:5432 -v fcrepo-postgres-data:/var/lib/postgresql/data docker.lib.umd.edu/fcrepo-postgres
     ```
     
     To run the Postgres Docker container in the background, add `-d` to the `docker run`
@@ -78,13 +63,30 @@ directory). Therefore the typical directory structure is:
     add `--rm` to the `docker run` command, i.e.:
     
     ```
-    docker run -d --rm -p 5432:5432 -v fcrepo-postgres-data:/var/lib/postgresql/data umd-fcrepo-postgres
+    docker run -d --rm -p 5432:5432 -v fcrepo-postgres-data:/var/lib/postgresql/data docker.lib.umd.edu/fcrepo-postgres
+    ```
+    
+4. Start up an instance of the fedora4 Solr core from the Docker image:
+
+    ```
+    docker volume create fcrepo-solr-fedora4-data
+    cd ~/git/umd-fcrepo-docker/solr
+    docker build -t docker.lib.umd.edu/fcrepo-solr-fedora4 .
+    docker run -p 8983:8983 -v fcrepo-solr-fedora4-data:/var/opt/solr docker.lib.umd.edu/fcrepo-solr-fedora4
+    ```
+    
+    To run the fedora4 Solr Core Docker container in the background, add `-d` to the
+    `docker run` command. To automatically delete the container (but not the data) when
+    it is stopped, add `--rm` to the `docker run` command, i.e.:
+    
+    ```
+    docker run -d --rm -p 8983:8983 -v fcrepo-solr-fedora4-data:/var/opt/solr docker.lib.umd.edu/fcrepo-solr-fedora4
     ```
 
 6. Start the Vagrant:
 
     ```
-    cd ../../fcrepo-vagrant
+    cd ~/git/fcrepo-vagrant
     vagrant up
     ```
 
@@ -93,7 +95,6 @@ Congratulations, you should now have a running fcrepo-vagrant!
 * Application Landing Page: <https://fcrepolocal/>
 * Log in: <https://fcrepolocal/user>
 * Fedora REST interface: <https://fcrepolocal/fcrepo/rest>
-* Solr Admin interface: <http://solrlocal:8983/solr>
 * ActiveMQ Admin Interface: <https://fcrepolocal/activemq/admin>
 
 ### Authentication
@@ -155,13 +156,11 @@ regeneration the next time you provision the Vagrant.
 |Box Name |Hostname   |IP Address   |OS        |Open Ports |
 |---------|-----------|-------------|----------|-----------|
 |fcrepo   |fcrepolocal|192.168.40.10|CentOS 6.6|80,443,8161,61613|
-|solr     |solrlocal  |192.168.40.11|CentOS 6.6|8983,8984  |
 
 [Vagrantfile](Vagrantfile)
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html
 [fcrepo-env]: https://bitbucket.org/umd-lib/fcrepo-env
-[fedora4-core]: https://bitbucket.org/umd-lib/fedora4-core
 [fcrepo-test]: https://bitbucket.org/umd-lib/fcrepo-test
 
 ## License
