@@ -60,8 +60,6 @@ Vagrant.configure(2) do |config|
     fcrepo.vm.provision 'shell', inline: '/apps/fedora/setup/install-karaf.sh'
     # install Maven
     fcrepo.vm.provision 'shell', inline: '/apps/fedora/setup/install-maven.sh'
-    # install Fuseki
-    fcrepo.vm.provision 'shell', inline: '/apps/fedora/setup/install-fuseki.sh'
     # configure Apache runtime
     fcrepo.vm.provision 'shell', inline: '/apps/fedora/setup/configure-apache.sh'
     # install pyenv and Python 3

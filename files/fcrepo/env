@@ -11,7 +11,7 @@ export LDAP_SERVER_URL=ldaps://directory.umd.edu
 export SSL_CERT_NAME=fcrepolocal
 export SSL_KEY_NAME=fcrepolocal
 export TOMCAT_PROXY=https://localhost:9601
-export FUSEKI_PROXY=http://localhost:3030
+export FUSEKI_PROXY=http://192.168.40.1:3030
 export FUSEKI_ADMIN_GROUP=cn=Application_Roles:Libraries:FCREPO:FUSEKI-Administrator,ou=grouper,ou=group,dc=umd,dc=edu
 export ACTIVEMQ_ADMIN_GROUP=cn=Application_Roles:Libraries:FCREPO:ACTIVEMQ-Administrator,ou=grouper,ou=group,dc=umd,dc=edu
 # Tomcat
@@ -29,7 +29,7 @@ export PG_CAMEL_PASSWORD=camel
 # Karaf
 export FCREPO_SERVER=fcrepolocal
 export SOLR_URL=http://192.168.40.1:8983/solr/fedora4
-export FUSEKI_SERVER=fcrepolocal
+export FUSEKI_SERVER=http://192.168.40.1:3030
 export KARAF_FCREPO_LOG_LEVEL=DEBUG
 export KARAF_LOG_RETENTION_DAYS=2
 # ActiveMQ

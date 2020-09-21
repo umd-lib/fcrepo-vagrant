@@ -95,7 +95,9 @@ Congratulations, you should now have a running fcrepo-vagrant!
 * Application Landing Page: <https://fcrepolocal/>
 * Log in: <https://fcrepolocal/user>
 * Fedora REST interface: <https://fcrepolocal/fcrepo/rest>
-* ActiveMQ Admin Interface: <https://fcrepolocal/activemq/admin>
+* ActiveMQ admin interface: <https://fcrepolocal/activemq/admin>
+* Solr admin interface: <http://localhost:8983/solr/#/>
+* Fuseki admin interface: <http://localhost:3030/>
 
 ### Authentication
 
